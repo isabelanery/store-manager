@@ -6,7 +6,7 @@ const ProductModel = require('../../../models/Products');
 
 const db = require('../mockDb');
 
-describe('Model - Lista todos os produtos através da rota "/products"', () => {
+describe('Model - Lista todos os produtos através da rota GET "/products"', () => {
 
   before(async () => {
     const execute = [db];
@@ -30,7 +30,7 @@ describe('Model - Lista todos os produtos através da rota "/products"', () => {
 });
 
 
-describe('Model - Encontra um produto através da rota "/products/:id"', () => {
+describe('Model - Encontra um produto através da rota GET "/products/:id"', () => {
   describe('quando o produto é encontrado com sucesso', () => {
     before(async () => {
       const execute = [db[0]];
@@ -53,12 +53,28 @@ describe('Model - Encontra um produto através da rota "/products/:id"', () => {
       const NAME_TEST = db[0].name;
       const response = await ProductModel.findById(ID_TEST);
 
-      expect(response).to.contain.keys('name');
+      expect(response).to.have.a.property('name');
       expect(response.name).to.equal(NAME_TEST);
     });
   });
+});
 
-  // describe('quando o produto não é encontrado', () => {
-    
-  // });
+describe('Model - Insere um novo produto no DB através da rota POST "/products"', () => {
+  const newProduct = {
+    name: 'Capa da Invisibilidade',
+  };
+  
+  describe('quando é inserido com sucesso', () => {
+    it('retorna um objeto', async () => {
+      const response = await ProductModel.create(newProduct);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto possui o "id" do novo produto inserido', async () => {
+      const response = await ProductModel.create(newProduct);
+
+      expect(response).to.have.a.property('id');
+    });
+  });
 });

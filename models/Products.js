@@ -20,7 +20,12 @@ const findById = async (id) => {
   return product;
 };
 
+const create = async () => {
+
+};
+
 module.exports = {
   getAll,
   findById,
+  create,
 };

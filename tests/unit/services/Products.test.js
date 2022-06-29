@@ -51,4 +51,4 @@ describe('Service - Encontra um produto através da rota "/products/:id"', () =>
       expect(response.name).to.equal(NAME_TEST);
     });
   });
-})
+});
