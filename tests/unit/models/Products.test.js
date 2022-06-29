@@ -65,7 +65,7 @@ describe('Model - Insere um novo produto no DB através da rota POST "/products"
     };
     
     before(async () => {
-      const execute = [{ insertId: 4, ...newProduct }];
+      const execute = [{ insertId: 4 }];
 
       sinon.stub(connection, 'execute').resolves(execute);
     });

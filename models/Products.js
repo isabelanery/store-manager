@@ -27,7 +27,6 @@ const create = async ({ name }) => {
 
   return {
     id: response.insertId,
-    name,
   };
 };
 

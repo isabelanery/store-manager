@@ -52,3 +52,45 @@ describe('Service - Encontra um produto através da rota "/products/:id"', () =>
     });
   });
 });
+
+describe('Service - Insere um novo produto no DB através da rota POST "/products"', () => {
+  describe('quando é inserido com sucesso', () => {
+    const newProduct = {
+      name: 'Capa da Invisibilidade',
+    };
+
+    before(async () => {
+      const ID_TEST = 4;
+
+      sinon.stub(ProductModel, 'create').resolves({ id: ID_TEST });
+    });
+
+    after(async () => ProductModel.create.restore())
+
+    it('retorna um objeto', async () => {
+      const response = await ProductService.create(newProduct);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto possui o "id" do novo produto inserido', async () => {
+      const response = await ProductService.create(newProduct);
+
+      expect(response).to.have.a.property('id');
+    });
+  });
+
+  describe('quando o nome informado é inválido', () => {
+    const newProduct = {};
+
+    it('retorna um boolean', async () => {
+      const response = await ProductService.create(newProduct);
+      expect(response).to.be.a('boolean');
+    });
+
+    it('o boolean contém "false"', async () => {
+      const response = await ProductService.create(newProduct);
+      expect(response).to.be.equal(false);
+    });
+  });
+});
