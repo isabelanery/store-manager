@@ -3,7 +3,6 @@ const sinon = require('sinon');
 
 const connection = require('../../../models/connection');
 const ProductModel = require('../../../models/Products');
-
 const db = require('../mockDb');
 
 describe('Model - Lista todos os produtos através da rota GET "/products"', () => {
@@ -60,11 +59,19 @@ describe('Model - Encontra um produto através da rota GET "/products/:id"', () 
 });
 
 describe('Model - Insere um novo produto no DB através da rota POST "/products"', () => {
-  const newProduct = {
-    name: 'Capa da Invisibilidade',
-  };
-  
   describe('quando é inserido com sucesso', () => {
+    const newProduct = {
+      name: 'Capa da Invisibilidade',
+    };
+    
+    before(async () => {
+      const execute = [{ insertId: 4, ...newProduct }];
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+
+    after(async () => connection.execute.restore() )
+
     it('retorna um objeto', async () => {
       const response = await ProductModel.create(newProduct);
 

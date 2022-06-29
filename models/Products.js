@@ -20,8 +20,15 @@ const findById = async (id) => {
   return product;
 };
 
-const create = async () => {
+const create = async ({ name }) => {
+  const [response] = await connection.execute(
+    'INSERT INTO products (name) VALUES (?)', [name],
+  );
 
+  return {
+    id: response.insertId,
+    name,
+  };
 };
 
 module.exports = {
