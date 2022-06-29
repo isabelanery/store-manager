@@ -4,22 +4,9 @@ const sinon = require('sinon');
 const connection = require('../../../models/connection');
 const ProductModel = require('../../../models/Products');
 
-const db = [
-  {
-    id: 1,
-    name: "Martelo de Thor"
-  },
-  {
-    id: 2,
-    name: "Traje de encolhimento"
-  },
-  {
-    id: 3,
-    name: "Escudo do Capitão América"
-  }
-];
+const db = require('../mockDb');
 
-describe('M - Lista todos os produtos através da rota "/products"', () => {
+describe('Model - Lista todos os produtos através da rota "/products"', () => {
 
   before(async () => {
     const execute = [db];
@@ -43,7 +30,7 @@ describe('M - Lista todos os produtos através da rota "/products"', () => {
 });
 
 
-describe('M - Encontra um produto através da rota "/products/:id"', () => {
+describe('Model - Encontra um produto através da rota "/products/:id"', () => {
   describe('quando o produto é encontrado com sucesso', () => {
     before(async () => {
       const execute = [db[0]];

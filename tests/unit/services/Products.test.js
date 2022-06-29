@@ -4,22 +4,9 @@ const sinon = require('sinon');
 const ProductModel = require('../../../models/Products');
 const ProductService = require('../../../services/Products');
 
-const db = [
-  {
-    "id": 1,
-    "name": "Martelo de Thor"
-  },
-  {
-    "id": 2,
-    "name": "Traje de encolhimento"
-  },
-  {
-    "id": 3,
-    "name": "Escudo do Capitão América"
-  }
-];
+const db = require('../mockDb');
 
-describe('S - Lista todos os produtos através da rota "/products"', () => {
+describe('Service - Lista todos os produtos através da rota "/products"', () => {
   describe('quando é retornado com sucesso', () => {
     before(() => {
       sinon.stub(ProductModel, 'getAll').resolves(db);
@@ -36,7 +23,7 @@ describe('S - Lista todos os produtos através da rota "/products"', () => {
   });
 });
 
-describe('S - Encontra um produto através da rota "/products/:id"', () => {
+describe('Service - Encontra um produto através da rota "/products/:id"', () => {
   before(() => {
     const findByIt = [db[0]];
     sinon.stub(ProductModel, 'findById').resolves(findByIt);
