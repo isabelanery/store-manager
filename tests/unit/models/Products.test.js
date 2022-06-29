@@ -6,20 +6,20 @@ const ProductModel = require('../../../models/Products');
 
 const db = [
   {
-    "id": 1,
-    "name": "Martelo de Thor"
+    id: 1,
+    name: "Martelo de Thor"
   },
   {
-    "id": 2,
-    "name": "Traje de encolhimento"
+    id: 2,
+    name: "Traje de encolhimento"
   },
   {
-    "id": 3,
-    "name": "Escudo do Capitão América"
+    id: 3,
+    name: "Escudo do Capitão América"
   }
 ];
 
-describe('Lista todos os produtos através da rota "/products"', () => {
+describe('M - Lista todos os produtos através da rota "/products"', () => {
 
   before(async () => {
     const execute = [db];
@@ -43,11 +43,10 @@ describe('Lista todos os produtos através da rota "/products"', () => {
 });
 
 
-describe('Encontra um produto através da rota "/products/:id"', () => {
+describe('M - Encontra um produto através da rota "/products/:id"', () => {
   describe('quando o produto é encontrado com sucesso', () => {
     before(async () => {
       const execute = [db[0]];
-
       sinon.stub(connection, 'execute').returns(execute);
     });
 
@@ -56,19 +55,19 @@ describe('Encontra um produto através da rota "/products/:id"', () => {
     })
 
     it('retorna um objeto', async () => {
-      const id = 1;
-      const response = await ProductModel.findById(id);
+      const ID_TEST = 1;
+      const response = await ProductModel.findById(ID_TEST);
 
       expect(response).to.be.an('object');
     });
 
     it('tal objeto possui uma chave com o nome do produto', async () => {
-      const id = 1;
-      const nameProduct = db[0].name;
-      const response = await ProductModel.findById(id);
+      const ID_TEST = 1;
+      const NAME_TEST = db[0].name;
+      const response = await ProductModel.findById(ID_TEST);
 
       expect(response).to.contain.keys('name');
-      expect(response.name).to.equal(nameProduct);
+      expect(response.name).to.equal(NAME_TEST);
     });
   });
 
