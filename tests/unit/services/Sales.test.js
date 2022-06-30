@@ -124,6 +124,7 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
       });
     });
 
+    // the next 02 describes are not working IDK WHY sos
     describe('porque a requisição está sem o campo "quantity"', () => {
       const newSale = [{ productId: 2 }];
 

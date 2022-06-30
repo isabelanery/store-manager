@@ -34,7 +34,7 @@ const validateSale = (data) => {
   if (!sales.every((sale) => sale.quantity >= 1)) {
     return {
       isValid: false,
-      err: { code: 400, message: '"quantity" must be greater than or equal to 1',
+      err: { code: 422, message: '"quantity" must be greater than or equal to 1',
       },
     };
   }
