@@ -8,7 +8,7 @@
     "method": "GET",
     "sortNum": 0,
     "created": "2022-06-29T18:29:55.051Z",
-    "modified": "2022-06-29T18:37:44.100Z",
+    "modified": "2022-06-30T01:09:30.961Z",
     "headers": [],
     "params": [],
     "tests": []
@@ -25,6 +25,25 @@
     "modified": "2022-06-29T21:53:17.631Z",
     "headers": [],
     "params": [],
+    "tests": []
+  },
+  {
+    "_id": "04ad370e-d6b5-42a4-9300-b80491c66cab",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:3000/products",
+    "url": "http://localhost:3000/products",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-06-30T01:10:52.809Z",
+    "modified": "2022-06-30T01:10:52.885Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"name\": \"Idk\"\n}",
+      "form": []
+    },
     "tests": []
   }
 ]

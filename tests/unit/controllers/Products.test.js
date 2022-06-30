@@ -98,13 +98,21 @@ describe('Controller - Insere um novo produto no DB através da rota POST "/prod
   describe('quando é inserido com sucesso', () => {
     const request = {};
     const response = {};
+    const PRODUCT_TEST = {
+      id: 4,
+      name: 'Capa da Invisibilidade',
+    }
 
     before(() => {
       request.body = { name: 'Capa da Invisibilidade' };
 
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
+
+      sinon.stub(ProductService, 'create').resolves(PRODUCT_TEST);
     });
+
+    after(() => ProductService.create.restore());
 
     it('é chamado o status com o código 201', async () => {
       await ProductsController.create(request, response);
@@ -112,16 +120,9 @@ describe('Controller - Insere um novo produto no DB através da rota POST "/prod
     });
 
     it('retorna um objeto com as chaves "id" e "name"', async () => {
-      const test = await ProductsController.create(request, response);
-      // const PRODUCT_TEST = {
-      //   id: 4,
-      //   name: 'Capa da Invisibilidade'
-      // };
+      await ProductsController.create(request, response);
 
-      // expect(response.json.calledWith(PRODUCT_TEST)).to.be.equal(true);
-      expect(response.json.calledWith(test)).to.be.equal(true);
-      expect(test).to.have.a.property('id');
-      expect(test).to.have.a.property('name');
+      expect(response.json.calledWith(PRODUCT_TEST)).to.be.equal(true);
     });
   });
 
@@ -134,7 +135,11 @@ describe('Controller - Insere um novo produto no DB através da rota POST "/prod
 
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
+
+      sinon.stub(ProductService, 'create').resolves({ err: 400 });
     });
+
+    after(() => ProductService.create.restore());
 
     it('é chamado o status com o código 400', async () => {
       await ProductsController.create(request, response);
@@ -159,7 +164,11 @@ describe('Controller - Insere um novo produto no DB através da rota POST "/prod
 
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
+
+      sinon.stub(ProductService, 'create').resolves({ err: 422 });
     });
+
+    after(() => ProductService.create.restore());
 
     it('é chamado o status com o código 422', async () => {
       await ProductsController.create(request, response);

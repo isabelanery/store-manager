@@ -83,14 +83,20 @@ describe('Service - Insere um novo produto no DB através da rota POST "/product
   describe('quando o nome informado é inválido', () => {
     const newProduct = {};
 
-    it('retorna um boolean', async () => {
+    it('retorna um objeto', async () => {
       const response = await ProductService.create(newProduct);
-      expect(response).to.be.a('boolean');
+      expect(response).to.be.an('object');
     });
 
-    it('o boolean contém "false"', async () => {
+    it('tal objeto contém uma chave "isNameValid" com o valor "false"', async () => {
       const response = await ProductService.create(newProduct);
-      expect(response).to.be.equal(false);
+      expect(response).to.contain.property('isNameValid');
+      expect(response.isNameValid).to.be.equal(false);
+    });
+
+    it('tal objeto contém uma chave "err", que informa porque o nome não foi validado', async () => {
+      const response = await ProductService.create(newProduct);
+      expect(response).to.contain.property('err');
     });
   });
 });

@@ -15,20 +15,20 @@ const findById = async (id) => {
 };
 
 const isValid = (name) => {
-  if (!name || typeof name !== 'string') return false;
-  if (name.length < 5) return false;
+  if (!name || typeof name !== 'string') return { isNameValid: false, err: 400 };
+  if (name.length < 5) return { isNameValid: false, err: 422 };
 
-  return true;
+  return { isNameValid: true };
 };
 
 const create = async ({ name }) => {
-  const isNameValid = isValid(name);
+  const validation = isValid(name);
 
-  if (!isNameValid) return false;
+  if (!validation.isNameValid) return validation;
 
   const { id } = await ProductsModel.create({ name });
   
-  return { id };
+  return { id, name };
 };
 
 module.exports = {
