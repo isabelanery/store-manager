@@ -3,9 +3,7 @@ const sinon = require('sinon');
 
 const connection = require('../../../models/connection');
 
-const SalesModel = {
-  create: () => {}
-}
+const SalesModel = require('../../../models/Sales');
 
 describe('Model - Insere uma nova venda no DB através da rota POST "/sales"', () => {
   describe('quando é inserido com sucesso', () => { 
@@ -19,7 +17,29 @@ describe('Model - Insere uma nova venda no DB através da rota POST "/sales"', (
         "quantity": 5
       }
     ];
+
+    const result = {
+      "id": 3,
+      "itemsSold": [
+        {
+          "productId": 1,
+          "quantity": 1
+        },
+        {
+          "productId": 2,
+          "quantity": 5
+        }
+      ]
+    }
+
+    before(async () => {
+      const execute = [result];
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
     
+    after(async () => connection.execute.restore());
+
     it('retorna um objeto', async () => {
       const response = await SalesModel.create(payload);
 
