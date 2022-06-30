@@ -9,7 +9,12 @@ const create = async (sales) => {
 
   sales.forEach(async (sale) => {
     await connection.execute(
-      'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+
+      `INSERT INTO sales_products (sale_id, product_id, quantity) 
+        VALUES (
+          ?,
+          (SELECT id FROM products WHERE id = ?),
+          ?)`,
       [saleId, sale.productId, sale.quantity],
     );
   });
