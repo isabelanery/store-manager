@@ -1,12 +1,13 @@
 const connection = require('./connection');
 
-const create = async (sales) => {
+const create = async (data) => {
   const [result] = await connection.execute(
     'INSERT INTO sales (date) VALUES(NOW())',
   );
 
   const saleId = result.insertId;
 
+  const sales = !Array.isArray(data) ? [data] : data;
   sales.forEach(async (sale) => {
     await connection.execute(
 
@@ -21,7 +22,7 @@ const create = async (sales) => {
 
   return {
     id: saleId,
-    itemsSold: sales,
+    // itemsSold: sales,
   };
 };
 

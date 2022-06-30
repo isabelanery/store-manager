@@ -1,33 +1,50 @@
-// const SalesModel = require('../models/Sales');
+const SalesModel = require('../models/Sales');
 
-// const validateProductId = (sales) => {
-//   if (!sales.every((sale) => sale.productId)) {
-//     return { isValid: false, errCode: 400, errMsg: '"productId" is required' };
-//   }
+const validateProductId = (data) => {
+  const sales = !Array.isArray(data) ? [data] : data;
 
-// };
+  if (!sales.every((sale) => sale.productId !== undefined)) {
+    return { isValid: false, err: { code: 400, message: '"productId" is required' } };
+  }
 
-// const validateSale = (data) => {
+  // pensar em como validar se o productId existe na tabela product
+
+  return { isValid: true };
+};
+
+const validateSale = (data) => {
+  const sales = !Array.isArray(data) ? [data] : data;
+
+  if (!sales.every((sale) => sale.quantity)) {
+    return { isValid: false, err: { code: 400, message: '"quantity" is required' } };
+  }
+
+  if (!sales.every((sale) => sale.quantity >= 1)) {
+    return {
+      isValid: false,
+      err: { code: 400, message: '"quantity" must be greater than or equal to 1',
+      },
+    };
+  }
+
+  return { isValid: true };
+};
+
+const validate = (sales) => {
+  if (!validateProductId(sales).isValid) return validateProductId(sales);
   
-// const sales = typeof data === 'object' ? [data] : data;
+  if (!validateSale(sales).isValid) return validateSale(sales);
 
-//   if (!sales.every((sale) => sale.quantity)) {
-//     return { isValid: false, errCode: 400, errMsg: '"quantity" is required' };
-//   }
+  return { isValid: true };
+};
 
-//   if (!sales.every((sale) => sale.quantity >= 1)) {
-//     return {
-//       isValid: false,
-//       errCode: 400,
-//       errMsg: '"quantity" must be greater than or equal to 1',
-//     };
-//   }
-// };
+const create = async (sales) => {
+  if (!validate(sales).isValid) return validate(sales);
 
-// const create = async (sales) => {
-//   // if (validateRequest(sales).isValid === false) return false; 
-// };
+  const { id } = await SalesModel.create(sales);
+  return { id };
+};
 
-// module.exports = {
-//   create,
-// };
+module.exports = {
+  create,
+};
