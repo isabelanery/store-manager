@@ -3,6 +3,8 @@ const sinon = require('sinon');
 
 const SalesService = require('../../../services/Sales');
 const SalesModel = require('../../../models/Sales');
+const ProductModel = require('../../../models/Products');
+const db = require('../mockDb');
 
 describe('Service - Insere uma nova venda no DB através da rota POST "/sales"', () => {
   describe('quando é inserido com sucesso', () => {
@@ -21,9 +23,13 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
       const ID_TEST = 4;
 
       sinon.stub(SalesModel, 'create').resolves({ id: ID_TEST });
+      sinon.stub(ProductModel, 'getAll').resolves(db);
     });
 
-    after(() => SalesModel.create.restore());
+    after(() => {
+      SalesModel.create.restore();
+      ProductModel.getAll.restore();
+    });
     
     it('retorna um objeto', async () => {
       const response = await SalesService.create(payload);
@@ -52,11 +58,15 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
       const ID_TEST = 4;
 
       sinon.stub(SalesModel, 'create').resolves({ id: ID_TEST });
+      sinon.stub(ProductModel, 'getAll').resolves(db);
     });
 
-    after(() => SalesModel.create.restore());
+    after(() => {
+      SalesModel.create.restore();
+      ProductModel.getAll.restore();
+    });
 
-    describe('sem o campo "productId"', () => {
+    describe('porque a requisição está sem o campo "productId"', () => {
       const newSale = [{ quantity: 2 }];
       it('retorna um objeto', async () => {
         const response = await SalesService.create(newSale);
@@ -114,8 +124,9 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
       });
     });
 
-    describe('sem o campo "quantity"', () => {
+    describe('porque a requisição está sem o campo "quantity"', () => {
       const newSale = [{ productId: 2 }];
+
       it('retorna um objeto', async () => {
         const response = await SalesService.create(newSale);
         expect(response).to.be.an('object');
@@ -135,6 +146,7 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
 
     describe('com o campo "quantity" menor ou igual a 0 (Zero)', () => {
       const newSale = [{ productId: 2, quantity: 0 }];
+
       it('retorna um objeto', async () => {
         const response = await SalesService.create(newSale);
         expect(response).to.be.an('object');
