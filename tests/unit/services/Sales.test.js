@@ -17,13 +17,13 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
       }
     ];
 
-    // before(() => {
-    //   const ID_TEST = 4;
+    before(() => {
+      const ID_TEST = 4;
 
-    //   sinon.stub(SalesModel, 'create').resolves({ id: ID_TEST });
-    // });
+      sinon.stub(SalesModel, 'create').resolves({ id: ID_TEST });
+    });
 
-    // after(() => SalesModel.create.restore());
+    after(() => SalesModel.create.restore());
     
     it('retorna um objeto', async () => {
       const response = await SalesService.create(payload);
@@ -47,6 +47,15 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
   });
 
   describe('quando não é possível cadastrar uma nova venda', () => {
+
+    before(() => {
+      const ID_TEST = 4;
+
+      sinon.stub(SalesModel, 'create').resolves({ id: ID_TEST });
+    });
+
+    after(() => SalesModel.create.restore());
+
     describe('sem o campo "productId"', () => {
       const newSale = [{ quantity: 2 }];
       it('retorna um objeto', async () => {
@@ -75,7 +84,7 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
 
       it('tal objeto contém uma chave "isValid" com o valor "false"', async () => {
         const response = await SalesService.create(newSale);
-        
+
         expect(response).to.contain.property('isValid');
         expect(response.isValid).to.be.equal(false);
       });
@@ -105,7 +114,7 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
       });
     });
 
-    describe('sem o campo "quantity"', () => {    
+    describe('sem o campo "quantity"', () => {
       const newSale = [{ productId: 2 }];
       it('retorna um objeto', async () => {
         const response = await SalesService.create(newSale);
@@ -124,7 +133,7 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
       });
     });
 
-    describe('com o campo "quantity" menor ou igual a 0 (Zero)', () => {    
+    describe('com o campo "quantity" menor ou igual a 0 (Zero)', () => {
       const newSale = [{ productId: 2, quantity: 0 }];
       it('retorna um objeto', async () => {
         const response = await SalesService.create(newSale);
@@ -142,14 +151,5 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
         expect(response).to.contain.property('err');
       });
     });
-    
-
-    // it('', async () => {
-
-    // });
-
-    // it('', async () => {
-
-    // });
-  })
+  });
 });
