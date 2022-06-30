@@ -4,12 +4,12 @@ const sinon = require('sinon');
 const ProductModel = require('../../../models/Products');
 const ProductService = require('../../../services/Products');
 
-const db = require('../mockDb');
+const { productsDb } = require('../mockDb');
 
 describe('Service - Lista todos os produtos através da rota "/products"', () => {
   describe('quando é retornado com sucesso', () => {
     before(() => {
-      sinon.stub(ProductModel, 'getAll').resolves(db);
+      sinon.stub(ProductModel, 'getAll').resolves(productsDb);
     });
 
     after(() => { ProductModel.getAll.restore(); })
@@ -25,7 +25,7 @@ describe('Service - Lista todos os produtos através da rota "/products"', () =>
 
 describe('Service - Encontra um produto através da rota "/products/:id"', () => {
   before(() => {
-    const findByIt = [db[0]];
+    const findByIt = [productsDb[0]];
     sinon.stub(ProductModel, 'findById').resolves(findByIt);
   });
 
@@ -44,7 +44,7 @@ describe('Service - Encontra um produto através da rota "/products/:id"', () =>
 
     it('tal objeto possui uma chave com o nome do produto', async () => {
       const ID_TEST = 1;
-      const NAME_TEST = db[0].name;
+      const NAME_TEST = productsDb[0].name;
       const response = await ProductService.findById(ID_TEST);
 
       expect(response).to.contain.keys('name');

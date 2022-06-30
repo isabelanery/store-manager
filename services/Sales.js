@@ -13,11 +13,6 @@ const validateProductId = async (data) => {
     return { isValid: false, err: { code: 404, message: 'Product not found' } };
   }
 
-  // não sei pq mas essa validação só passa se estiver aqui (?)
-  // if (!sales.every((sale) => sale.quantity)) {
-  //   return { isValid: false, err: { code: 400, message: '"quantity" is required' } };
-  // }
-
   return { isValid: true };
 };
 

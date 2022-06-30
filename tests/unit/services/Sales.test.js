@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const SalesService = require('../../../services/Sales');
 const SalesModel = require('../../../models/Sales');
 const ProductModel = require('../../../models/Products');
-const db = require('../mockDb');
+const { productsDb } = require('../mockDb');
 
 describe('Service - Insere uma nova venda no DB através da rota POST "/sales"', () => {
   describe('quando é inserido com sucesso', () => {
@@ -23,7 +23,7 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
       const ID_TEST = 4;
 
       sinon.stub(SalesModel, 'create').resolves({ id: ID_TEST });
-      sinon.stub(ProductModel, 'getAll').resolves(db);
+      sinon.stub(ProductModel, 'getAll').resolves(productsDb);
     });
 
     after(() => {
@@ -58,7 +58,7 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
       const ID_TEST = 4;
 
       sinon.stub(SalesModel, 'create').resolves({ id: ID_TEST });
-      sinon.stub(ProductModel, 'getAll').resolves(db);
+      sinon.stub(ProductModel, 'getAll').resolves(productsDb);
     });
 
     after(() => {

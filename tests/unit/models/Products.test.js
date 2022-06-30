@@ -3,12 +3,12 @@ const sinon = require('sinon');
 
 const connection = require('../../../models/connection');
 const ProductModel = require('../../../models/Products');
-const db = require('../mockDb');
+const { productsDb } = require('../mockDb');
 
 describe('Model - Lista todos os produtos através da rota GET "/products"', () => {
 
   before(async () => {
-    const execute = [db];
+    const execute = [productsDb];
 
     sinon.stub(connection, 'execute').returns(execute);
   })
@@ -32,7 +32,7 @@ describe('Model - Lista todos os produtos através da rota GET "/products"', () 
 describe('Model - Encontra um produto através da rota GET "/products/:id"', () => {
   describe('quando o produto é encontrado com sucesso', () => {
     before(async () => {
-      const execute = [db[0]];
+      const execute = [productsDb[0]];
       sinon.stub(connection, 'execute').returns(execute);
     });
 
@@ -49,7 +49,7 @@ describe('Model - Encontra um produto através da rota GET "/products/:id"', () 
 
     it('tal objeto possui uma chave com o nome do produto', async () => {
       const ID_TEST = 1;
-      const NAME_TEST = db[0].name;
+      const NAME_TEST = productsDb[0].name;
       const response = await ProductModel.findById(ID_TEST);
 
       expect(response).to.have.a.property('name');

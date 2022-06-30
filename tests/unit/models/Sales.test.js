@@ -4,6 +4,7 @@ const sinon = require('sinon');
 const connection = require('../../../models/connection');
 
 const SalesModel = require('../../../models/Sales');
+const { salesDb } = require('../mockDb');
 
 describe('Model - Insere uma nova venda no DB através da rota POST "/sales"', () => {
   describe('quando é inserido com sucesso', () => { 
@@ -51,13 +52,46 @@ describe('Model - Insere uma nova venda no DB através da rota POST "/sales"', (
 
       expect(response).to.have.a.property('id');
     });
-
-    // it('tal objeto possui a chave "itemsSold", e seu valor é um array contendo o corpo da requisição', async () => {
-    //   const response = await SalesModel.create(payload);
-
-    //   expect(response).to.have.a.property('itemsSold');
-    //   expect(response.itemsSold).to.be.an('array');
-    //   expect(response.itemsSold).to.equal(payload);
-    // });
   })
+});
+
+describe('Model - Lista todos os produtos através da rota GET "/sales"', () => {
+
+  describe('quando é retornado com sucesso', () => {
+    it('retorna um array de objetos', async () => {
+      const response = await SalesModel.getAll();
+
+      expect(response).to.be.an('array');
+      expect(response[0]).to.be.an('object');
+    });
+  });
+});
+
+describe('Model - Encontra um produto através da rota GET "/sales/:id"', () => {
+  describe('quando o produto é encontrado com sucesso', () => {
+    before(async () => {
+      const execute = [salesDb[0]];
+      sinon.stub(connection, 'execute').returns(execute);
+    });
+
+    after(async () => {
+      connection.execute.restore();
+    })
+
+    it('retorna um objeto', async () => {
+      const ID_TEST = 1;
+      const response = await SalesModel.findById(ID_TEST);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto possui uma chave com o nome do produto', async () => {
+      const ID_TEST = 1;
+      const NAME_TEST = salesDb[0].name;
+      const response = await SalesModel.findById(ID_TEST);
+
+      expect(response).to.have.a.property('name');
+      expect(response.name).to.equal(NAME_TEST);
+    });
+  });
 });

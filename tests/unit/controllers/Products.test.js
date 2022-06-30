@@ -3,9 +3,8 @@ const { expect } = require('chai');
 
 const ProductService = require('../../../services/Products');
 const ProductsController = require('../../../controllers/Products');
-const db = require('../mockDb');
+const { productsDb } = require('../mockDb');
 const { response } = require('express');
-
 
 describe('Controller - Lista todos os produtos através da rota "/products"', () => {
   describe('quando é retornado com sucesso', () => {
@@ -14,9 +13,9 @@ describe('Controller - Lista todos os produtos através da rota "/products"', ()
 
     before(() => {
       response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns(db);
+      response.json = sinon.stub().returns(productsDb);
       
-      sinon.stub(ProductService, 'getAll').resolves(db);
+      sinon.stub(ProductService, 'getAll').resolves(productsDb);
     });
 
     after(() => ProductService.getAll.restore());
@@ -30,7 +29,7 @@ describe('Controller - Lista todos os produtos através da rota "/products"', ()
     it('retorna um objeto com as informações do produto buscado', async () => {
       await ProductsController.getAll(request, response);
 
-      expect(response.json.calledWith(db)).to.be.equal(true);
+      expect(response.json.calledWith(productsDb)).to.be.equal(true);
     });
   });
 });
@@ -44,9 +43,9 @@ describe('Controller - Testa a rota "/products/:id"', () => {
       request.params = 1;
 
       response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns(db[(request.params - 1)]);
+      response.json = sinon.stub().returns(productsDb[(request.params - 1)]);
 
-      sinon.stub(ProductService, 'findById').resolves(db[(request.params - 1)]);
+      sinon.stub(ProductService, 'findById').resolves(productsDb[(request.params - 1)]);
     })
 
     after(() => ProductService.findById.restore());
@@ -60,7 +59,7 @@ describe('Controller - Testa a rota "/products/:id"', () => {
     it('retorna um objeto com as informações do produto buscado', async () => {
       await ProductsController.findById(request, response);
 
-      expect(response.json.calledWith(db[0])).to.be.equal(true);
+      expect(response.json.calledWith(productsDb[0])).to.be.equal(true);
     });
   });
 
@@ -72,9 +71,9 @@ describe('Controller - Testa a rota "/products/:id"', () => {
       request.params = 7;
 
       response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns(db[(request.params - 1)]);
+      response.json = sinon.stub().returns(productsDb[(request.params - 1)]);
 
-      sinon.stub(ProductService, 'findById').resolves(db[(request.params - 1)]);
+      sinon.stub(ProductService, 'findById').resolves(productsDb[(request.params - 1)]);
     })
 
     after(() => ProductService.findById.restore());

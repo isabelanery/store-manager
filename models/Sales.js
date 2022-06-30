@@ -26,6 +26,16 @@ const create = async (data) => {
   };
 };
 
+const getAll = () => {
+
+};
+
+const findById = () => {
+
+};
+
 module.exports = {
   create,
+  getAll,
+  findById,
 };
