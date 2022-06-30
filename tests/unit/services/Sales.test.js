@@ -161,7 +161,10 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
 
       it('tal objeto contém uma chave "err"', async () => {
         const response = await SalesService.create(newSale);
+        const errMsg = '"quantity" must be greater than or equal to 1';
+
         expect(response).to.contain.property('err');
+        expect(response.err.message).to.be.equal(errMsg);
       });
     });
   });

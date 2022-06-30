@@ -12,30 +12,26 @@ const validateProductId = async (data) => {
   if (!sales.every((sale) => products.some((product) => +product.id === +sale.productId))) {
     return { isValid: false, err: { code: 404, message: 'Product not found' } };
   }
-  // pensar em como validar se o productId existe na tabela product
+
+  // não sei pq mas essa validação só passa se estiver aqui (?)
+  // if (!sales.every((sale) => sale.quantity)) {
+  //   return { isValid: false, err: { code: 400, message: '"quantity" is required' } };
+  // }
 
   return { isValid: true };
 };
 
-const validateSale = (data) => {
+const validateQuantity = (data) => {
   const sales = !Array.isArray(data) ? [data] : data;
 
-  console.log(sales.every((sale) => sale.quantity));
-  if (!sales.every((sale) => sale.quantity)) {
+  if (!sales.every((sale) => sale.quantity !== undefined)) {
     return { isValid: false, err: { code: 400, message: '"quantity" is required' } };
   }
-  
-  if (!sales[0].quantity) {
-    return { isValid: false, err: { code: 400, message: '"quantity" is required' } };
-  }
-  // if (sales.some((sale) => !sale.quantity)) {
-  // }
 
   if (!sales.every((sale) => sale.quantity >= 1)) {
     return {
       isValid: false,
-      err: { code: 422, message: '"quantity" must be greater than or equal to 1',
-      },
+      err: { code: 422, message: '"quantity" must be greater than or equal to 1' },
     };
   }
 
@@ -43,9 +39,9 @@ const validateSale = (data) => {
 };
 
 const isDataValid = async (sales) => {
-  if (await !validateProductId(sales).isValid) return validateProductId(sales);
+  if (!validateQuantity(sales).isValid) return validateQuantity(sales);
   
-  if (!validateSale(sales).isValid) return validateSale(sales);
+  if (await !validateProductId(sales).isValid) return validateProductId(sales);
 
   return { isValid: true };
 };
@@ -54,7 +50,6 @@ const create = async (sales) => {
   const validation = await isDataValid(sales);
 
   if (validation.isValid === false) return validation;
-  // console.log(validation);
 
   const { id } = await SalesModel.create(sales);
   return { id };

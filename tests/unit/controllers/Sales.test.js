@@ -1,9 +1,8 @@
 const { express, expect } = require('chai');
 const sinon = require('sinon');
 
-const SalesControler = {
-  create: () => {}
-}
+const SalesControler = require('../../../controllers/Sales');
+const SalesService = require('../../../services/Sales');
 
 describe('Controller - Insere uma nova venda no DB através da rota POST "/sales"', () => {
   
@@ -25,15 +24,19 @@ describe('Controller - Insere uma nova venda no DB através da rota POST "/sales
 
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
-    })
+
+      sinon.stub(SalesService, 'create').resolves({ id: 3 });
+    });
+
+    after(() => SalesService.create.restore());
 
     it('é chamado o status com o código 201', async () => {
       await SalesControler.create(request, response);
-
+      
       expect(response.status.calledWith(201)).to.be.equal(true);
     });
 
-    it('retorna um objeto com a mensagem de erro correta', async () => {
+    it('retorna um objeto com as chaves "id" e "itemsSold"', async () => {
       await SalesControler.create(request, response);
 
       const RESULT_TEST = {
@@ -64,11 +67,16 @@ describe('Controller - Insere uma nova venda no DB através da rota POST "/sales
 
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
-      })
+
+        const serviceReturn = { isValid: false, err: { code: 400, message: '"productId" is required' } };
+        sinon.stub(SalesService, 'create').resolves(serviceReturn);
+      });
+
+      after(() => SalesService.create.restore());
 
       it('é chamado o status com o código 400', async () => {
         await SalesControler.create(request, response);
-
+        
         expect(response.status.calledWith(400)).to.be.equal(true);
       });
 
@@ -86,7 +94,12 @@ describe('Controller - Insere uma nova venda no DB através da rota POST "/sales
 
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
-      })
+
+        const serviceReturn = { isValid: false, err: { code: 404, message: 'Product not found' } };
+        sinon.stub(SalesService, 'create').resolves(serviceReturn);
+      });
+
+      after(() => SalesService.create.restore());
 
       it('é chamado o status com o código 404', async () => {
         await SalesControler.create(request, response);
@@ -108,7 +121,12 @@ describe('Controller - Insere uma nova venda no DB através da rota POST "/sales
 
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
-      })
+
+        const serviceReturn = { isValid: false, err: { code: 400, message: '"quantity" is required' } };
+        sinon.stub(SalesService, 'create').resolves(serviceReturn);
+      });
+
+      after(() => SalesService.create.restore());
 
       it('é chamado o status com o código 400', async () => {
         await SalesControler.create(request, response);
@@ -130,7 +148,18 @@ describe('Controller - Insere uma nova venda no DB através da rota POST "/sales
 
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
-      })
+
+        const serviceReturn = {
+          isValid: false,
+          err: {
+            code: 422, message: '"quantity" must be greater than or equal to 1',
+          },
+        };
+
+        sinon.stub(SalesService, 'create').resolves(serviceReturn);
+      });
+
+      after(() => SalesService.create.restore());
 
       it('é chamado o status com o código 422', async () => {
         await SalesControler.create(request, response);
@@ -145,7 +174,5 @@ describe('Controller - Insere uma nova venda no DB através da rota POST "/sales
         expect(response.json.calledWith(errorMsg)).to.be.equal(true);
       })
     });
-
   });
-
 });
