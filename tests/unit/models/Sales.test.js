@@ -58,11 +58,28 @@ describe('Model - Insere uma nova venda no DB através da rota POST "/sales"', (
 describe('Model - Lista todos os produtos através da rota GET "/sales"', () => {
 
   describe('quando é retornado com sucesso', () => {
+    before(async () => {
+      const execute = [salesDb]
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+
+    after(async () => connection.execute.restore());
+
     it('retorna um array de objetos', async () => {
       const response = await SalesModel.getAll();
 
       expect(response).to.be.an('array');
       expect(response[0]).to.be.an('object');
+    });
+
+    it('tais objetos possuem uma chave "productId" com o id do produto e as informações da venda', async () => {
+      const ID_TEST = 1;
+      const PRODUCTID_TEST = salesDb[0].productId;
+      const response = await SalesModel.getAll(ID_TEST);
+
+      expect(response[0]).to.have.a.property('productId');
+      expect(response[0].productId).to.equal(PRODUCTID_TEST);
     });
   });
 });
@@ -85,13 +102,13 @@ describe('Model - Encontra um produto através da rota GET "/sales/:id"', () => 
       expect(response).to.be.an('object');
     });
 
-    it('tal objeto possui uma chave com o nome do produto', async () => {
+    it('tal objeto possui uma chave "productId" com o id do produto e as informações da venda', async () => {
       const ID_TEST = 1;
-      const NAME_TEST = salesDb[0].name;
+      const PRODUCTID_TEST = salesDb[0].productId;
       const response = await SalesModel.findById(ID_TEST);
 
-      expect(response).to.have.a.property('name');
-      expect(response.name).to.equal(NAME_TEST);
+      expect(response).to.have.a.property('productId');
+      expect(response.productId).to.equal(PRODUCTID_TEST);
     });
   });
 });
