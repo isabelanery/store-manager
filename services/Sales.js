@@ -50,11 +50,13 @@ const create = async (sales) => {
   return { id };
 };
 
-const getAll = () => {
+const getAll = async () => {
+  const sales = await SalesModel.getAll();
 
+  return sales;
 };
 
-const findById = () => {
+const findById = async () => {
 
 };
 

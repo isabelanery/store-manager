@@ -26,15 +26,22 @@ const create = async (data) => {
   };
 };
 
+const serialize = (data) => ({
+  saleId: data.sale_id,
+  date: data.date,
+  productId: data.product_id,
+  quantity: data.quantity,
+});
+
 const getAll = async () => {
   const [sales] = await connection.execute(
-    `SELECT * FROM StoreManager.sales AS s
+    `SELECT sale_id, date, product_id, quantity FROM StoreManager.sales AS s
     INNER JOIN StoreManager.sales_products AS sp
-      ON s.id = sp.sale_id;
-    ORDER BY sale_id, product_id`,
+    ON s.id = sp.sale_id
+    ORDER BY s.id, sp.product_id;`,
   );
 
-  return sales;
+  return sales.map(serialize);
 };
 
 const findById = async (id) => {
