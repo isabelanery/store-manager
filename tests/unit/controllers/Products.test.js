@@ -4,6 +4,7 @@ const { expect } = require('chai');
 const ProductService = require('../../../services/Products');
 const ProductsController = require('../../../controllers/Products');
 const db = require('../mockDb');
+const { response } = require('express');
 
 
 describe('Controller - Lista todos os produtos através da rota "/products"', () => {
@@ -95,14 +96,36 @@ describe('Controller - Testa a rota "/products/:id"', () => {
 
 describe('Controller - Insere um novo produto no DB através da rota POST "/products"', () => {
   describe('quando é inserido com sucesso', () => {
-    
+    const request = {};
+    const response = {};
 
-    it('', async () => {
+    before(() => {
+      request.body = { name: 'Capa da Invisibilidade' };
 
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+
+    it('é chamado o status com o código 201', async () => {
+      await ProductsController.create(request, response);
+      expect(response.status.calledWith(201)).to.be.equal(true);
+    });
+
+    it('retorna um objeto com as chaves "id" e "name"', async () => {
+      const test = await ProductsController.create(request, response);
+      // const PRODUCT_TEST = {
+      //   id: 4,
+      //   name: 'Capa da Invisibilidade'
+      // };
+
+      // expect(response.json.calledWith(PRODUCT_TEST)).to.be.equal(true);
+      expect(response.json.calledWith(test)).to.be.equal(true);
+      expect(test).to.have.a.property('id');
+      expect(test).to.have.a.property('name');
     });
   });
 
-  describe('quando o nome informado é inválido', () => {
+  describe('quando o nome não é informado', () => {
     const request = {};
     const response = {};
 
@@ -127,7 +150,7 @@ describe('Controller - Insere um novo produto no DB através da rota POST "/prod
     });
   });
 
-  describe('quando o nome não é informado', () => {
+  describe('quando o nome informado é inválido', () => {
     const request = {};
     const response = {};
 
