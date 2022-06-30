@@ -2,7 +2,7 @@ const connection = require('./connection');
 
 const create = async (data) => {
   const [result] = await connection.execute(
-    'INSERT INTO sales (date) VALUES(NOW())',
+    'INSERT INTO StoreManager.sales (date) VALUES(NOW())',
   );
 
   const saleId = result.insertId;
@@ -11,7 +11,7 @@ const create = async (data) => {
   sales.forEach(async (sale) => {
     await connection.execute(
 
-      `INSERT INTO sales_products (sale_id, product_id, quantity) 
+      `INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) 
         VALUES (
           ?,
           (SELECT id FROM products WHERE id = ?),
@@ -27,7 +27,9 @@ const create = async (data) => {
 };
 
 const getAll = () => {
-
+  // const [sales] = await connection.execute(
+  //   'SELECT * FROM StoreManager.sales',
+  // )
 };
 
 const findById = () => {
