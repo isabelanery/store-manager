@@ -92,3 +92,63 @@ describe('Controller - Testa a rota "/products/:id"', () => {
     });
   });
 })
+
+describe('Controller - Insere um novo produto no DB através da rota POST "/products"', () => {
+  describe('quando é inserido com sucesso', () => {
+    
+
+    it('', async () => {
+
+    });
+  });
+
+  describe('quando o nome informado é inválido', () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      request.body = { name: '' };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+
+    it('é chamado o status com o código 400', async () => {
+      await ProductsController.create(request, response);
+
+      expect(response.status.calledWith(400)).to.be.equal(true);
+    });
+
+    it('retorna um objeto com a mensagem de erro ""name" is required"', async () => {
+      await ProductsController.create(request, response);
+      const errorMsg = { message: '"name" is required' };
+
+      expect(response.json.calledWith(errorMsg)).to.be.equal(true);
+    });
+  });
+
+  describe('quando o nome não é informado', () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      request.body = {};
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+
+    it('é chamado o status com o código 422', async () => {
+      await ProductsController.create(request, response);
+
+      expect(response.status.calledWith(422)).to.be.equal(true);
+    });
+
+    it('retorna um objeto com a mensagem de erro ""name" length must be at least 5 characters long"', async () => {
+      await ProductsController.create(request, response);
+      const errorMsg = { message: '"name" length must be at least 5 characters long' };
+
+      expect(response.json.calledWith(errorMsg)).to.be.equal(true);
+    });
+  })
+});

@@ -15,7 +15,12 @@ const findById = async (req, res) => {
   res.status(200).json(product);
 };
 
+const create = async () => {
+
+};
+
 module.exports = {
   getAll,
   findById,
+  create,
 };
