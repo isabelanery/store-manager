@@ -5,6 +5,7 @@ const SalesService = require('../../../services/Sales');
 const SalesModel = require('../../../models/Sales');
 const ProductModel = require('../../../models/Products');
 const { productsDb } = require('../mockDb');
+const { salesDb } = require('../mockDb');
 
 describe('Service - Insere uma nova venda no DB através da rota POST "/sales"', () => {
   describe('quando é inserido com sucesso', () => {
@@ -166,6 +167,73 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
         expect(response).to.contain.property('err');
         expect(response.err.message).to.be.equal(errMsg);
       });
+    });
+  });
+});
+
+describe('Service - Lista todas as vendas através da rota "/sales"', () => {
+  describe('quando é retornado com sucesso', () => {
+    // before(() => {
+    //   sinon.stub(SalesModel, 'getAll').resolves(salesDb);
+    // });
+
+    // after(() => { SalesModel.getAll.restore(); })
+    
+    it('retorna um array de objetos', async () => {
+      const response = await SalesService.getAll();
+
+      expect(response).to.be.an('array');
+      expect(response[0]).to.be.an('object');
+    });
+
+    it('tais objetos possuem uma chave "productId" com o id do produto e as informações da venda', async () => {
+      const ID_TEST = 1;
+      const PRODUCTID_TEST = salesDb[0].productId;
+      const response = await SalesService.getAll(ID_TEST);
+
+      expect(response[0]).to.have.a.property('productId');
+      expect(response[0].productId).to.equal(PRODUCTID_TEST);
+    });
+  });
+});
+
+describe('Service -  Encontra um produto através da rota GET "/sales/:id"', () => {
+  describe('quando a venda é encontrada com sucesso', () => {
+    
+
+    it('retorna um objeto', async () => {
+      const ID_TEST = 1;
+      const response = await SalesService.findById(ID_TEST);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto possui uma chave "productId" com o id do produto e as informações da venda', async () => {
+      const ID_TEST = 1;
+      const PRODUCTID_TEST = salesDb[0].productId;
+      const response = await SalesService.findById(ID_TEST);
+
+      expect(response).to.have.a.property('productId');
+      expect(response).to.have.a.property('date');
+      expect(response).to.have.a.property('quantity');
+      expect(response.productId).to.equal(PRODUCTID_TEST);
+    });
+  });
+
+  describe('quando o id informado é inválido', () => {
+    it('retorna um objeto', async () => {
+      const ID_TEST = 7
+      const response = await SalesService.findById(ID_TEST);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto possui uma chave "isValid" com o valor false', async () => {
+      const ID_TEST = 7
+      const response = await SalesService.findById(ID_TEST);
+
+      expect(response).to.have.a.property('isValid');
+      expect(response.isValid).to.equal(false);
     });
   });
 });

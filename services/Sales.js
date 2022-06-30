@@ -50,6 +50,16 @@ const create = async (sales) => {
   return { id };
 };
 
+const getAll = () => {
+
+};
+
+const findById = () => {
+
+};
+
 module.exports = {
   create,
+  getAll,
+  findById,
 };

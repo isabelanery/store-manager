@@ -33,8 +33,7 @@ describe('Service - Encontra um produto através da rota "/products/:id"', () =>
 
 
   describe('quando o produto é encontrado com sucesso', () => {
-    
-    
+
     it('retorna um objeto', async () => {
       const ID_TEST = 1;
       const response = await ProductService.findById(ID_TEST);
