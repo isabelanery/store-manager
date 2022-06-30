@@ -56,8 +56,16 @@ const getAll = async () => {
   return sales;
 };
 
-const findById = async () => {
+const findById = async (id) => {
+  const sales = await getAll();
 
+  const validateId = sales.some((item) => +item.saleId === +id);
+
+  if (!validateId) return { isValid: false };
+
+  const sale = await SalesModel.findById(id);
+
+  return sale;
 };
 
 module.exports = {

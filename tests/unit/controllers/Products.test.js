@@ -21,8 +21,7 @@ describe('Controller - Lista todos os produtos através da rota "/products"', ()
     after(() => ProductService.getAll.restore());
 
     it('é chamado o status com o código 200', async () => {
-      const test = await ProductsController.getAll(request, response);
-      console.log(test);
+      await ProductsController.getAll(request, response);
       expect(response.status.calledWith(200)).to.be.equal(true);
     });
 

@@ -22,11 +22,10 @@ const create = async (data) => {
 
   return {
     id: saleId,
-    // itemsSold: sales,
   };
 };
 
-const serialize = (data) => ({
+const serializeAll = (data) => ({
   saleId: data.sale_id,
   date: data.date,
   productId: data.product_id,
@@ -41,8 +40,14 @@ const getAll = async () => {
     ORDER BY s.id, sp.product_id;`,
   );
 
-  return sales.map(serialize);
+  return sales.map(serializeAll);
 };
+
+const serializeById = (data) => ({
+  date: data.date,
+  productId: data.product_id,
+  quantity: data.quantity,
+});
 
 const findById = async (id) => {
   const [sale] = await connection.execute(
@@ -53,7 +58,9 @@ const findById = async (id) => {
     [id],
   );
 
-  return sale;
+  if (sale.length === 0) return null;
+
+  return sale.map(serializeById);
 };
 
 module.exports = {

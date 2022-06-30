@@ -17,6 +17,16 @@ const create = async (req, res) => {
   res.status(201).json(result);
 };
 
+const getAll = () => {
+
+};
+
+const findById = () => {
+
+};
+
 module.exports = {
   create,
+  getAll,
+  findById,
 };

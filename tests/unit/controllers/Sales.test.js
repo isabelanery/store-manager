@@ -3,6 +3,7 @@ const sinon = require('sinon');
 
 const SalesControler = require('../../../controllers/Sales');
 const SalesService = require('../../../services/Sales');
+const { salesDb, saleDb } = require('../mockDb');
 
 describe('Controller - Insere uma nova venda no DB através da rota POST "/sales"', () => {
   
@@ -173,6 +174,78 @@ describe('Controller - Insere uma nova venda no DB através da rota POST "/sales
         const errorMsg = { message: '"quantity" must be greater than or equal to 1' };
         expect(response.json.calledWith(errorMsg)).to.be.equal(true);
       })
+    });
+  });
+});
+
+describe('Controller - Lista todas as vendas através da rota "/sales"', () => {
+  const response = {};
+  const request = {};
+
+  before(() => {
+    response.status = sinon.stub().returns(response);
+    response.json = sinon.stub().returns(salesDb);
+  });
+
+  describe('quando é retornado com sucesso', () => {
+    it('é chamado o status com o código 200', async () => {
+      await SalesControler.getAll(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('retorna um array com a lista de vendas', async () => {
+      await SalesControler.getAll(request, response);
+
+      expect(response.json.calledWith(salesDb)).to.be.equal(true);
+    });
+  });
+});
+
+describe('Controller - Testa a rota "/sales/:id"', () => {
+  const request = {};
+  const response = {};
+
+  describe('quando a venda é encontrada com sucesso', () => {
+    before(() => {
+      request.params = 1;
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns(saleDb[(request.params - 1)]);
+    });
+
+    it('é chamado o status com o código 200', async () => {
+      await SalesControler.findById(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('retorna um objeto com as informações da venda buscada', async () => {
+      await SalesControler.findById(request, response);
+
+      expect(response.json.calledWith(saleDb)).to.be.equal(true);
+    });
+  });
+
+  describe('quando a venda não é encontrada', () => {
+    before(() => {
+      request.params = 1;
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns({ message: 'Sale not found' });
+    });
+
+    it('é chamado o status com o código 404', async () => {
+      await SalesControler.findById(request, response);
+
+      expect(response.status.calledWith(404)).to.be.equal(true);
+    });
+
+    it('retorna um objeto com a mensagem de erro: "Sale not found"', async () => {
+      await SalesControler.findById(request, response);
+
+      const errorMsg = { message: 'Sale not found' };
+      expect(response.json.calledWith(errorMsg)).to.be.equal(true);
     });
   });
 });

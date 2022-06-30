@@ -5,7 +5,7 @@ const SalesService = require('../../../services/Sales');
 const SalesModel = require('../../../models/Sales');
 const ProductModel = require('../../../models/Products');
 const { productsDb } = require('../mockDb');
-const { salesDb } = require('../mockDb');
+const { salesDb, saleDb } = require('../mockDb');
 
 describe('Service - Insere uma nova venda no DB através da rota POST "/sales"', () => {
   describe('quando é inserido com sucesso', () => {
@@ -43,14 +43,6 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
 
       expect(response).to.have.a.property('id');
     });
-
-    // it('tal objeto possui a chave "itemsSold", e seu valor é um array contendo o corpo da requisição', async () => {
-    //   const response = await SalesService.create(payload);
-
-    //   expect(response).to.have.a.property('itemsSold');
-    //   expect(response.itemsSold).to.be.an('array');
-    //   expect(response.itemsSold).to.equal(payload);
-    // });
   });
 
   describe('quando não é possível cadastrar uma nova venda', () => {
@@ -125,7 +117,6 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
       });
     });
 
-    // the next 02 describes are not working IDK WHY sos
     describe('porque a requisição está sem o campo "quantity"', () => {
       const newSale = [{ productId: 2 }];
 
@@ -173,11 +164,11 @@ describe('Service - Insere uma nova venda no DB através da rota POST "/sales"',
 
 describe('Service - Lista todas as vendas através da rota "/sales"', () => {
   describe('quando é retornado com sucesso', () => {
-    // before(() => {
-    //   sinon.stub(SalesModel, 'getAll').resolves(salesDb);
-    // });
+    before(() => {
+      sinon.stub(SalesModel, 'getAll').resolves(salesDb);
+    });
 
-    // after(() => { SalesModel.getAll.restore(); })
+    after(() => { SalesModel.getAll.restore(); })
     
     it('retorna um array de objetos', async () => {
       const response = await SalesService.getAll();
@@ -197,39 +188,55 @@ describe('Service - Lista todas as vendas através da rota "/sales"', () => {
   });
 });
 
-describe('Service -  Encontra um produto através da rota GET "/sales/:id"', () => {
-  describe('quando a venda é encontrada com sucesso', () => {
-    
-
-    it('retorna um objeto', async () => {
-      const ID_TEST = 1;
-      const response = await SalesService.findById(ID_TEST);
-
-      expect(response).to.be.an('object');
+describe('Service -  Encontra uma venda através da rota GET "/sales/:id"', () => {
+  describe('quando é encontrada com sucesso', () => {
+    before(() => {
+      sinon.stub(SalesModel, 'findById').returns(saleDb);
+      sinon.stub(SalesModel, 'getAll').resolves(salesDb);
     });
 
-    it('tal objeto possui uma chave "productId" com o id do produto e as informações da venda', async () => {
+    after(() => {
+      SalesModel.findById.restore();
+      SalesModel.getAll.restore();
+    });
+
+    it('retorna um array de objetos', async () => {
       const ID_TEST = 1;
-      const PRODUCTID_TEST = salesDb[0].productId;
       const response = await SalesService.findById(ID_TEST);
 
-      expect(response).to.have.a.property('productId');
-      expect(response).to.have.a.property('date');
-      expect(response).to.have.a.property('quantity');
-      expect(response.productId).to.equal(PRODUCTID_TEST);
+      expect(response).to.be.an('array');
+      expect(response[0]).to.be.an('object');
+    });
+
+    it('tais objetos possuem uma chave "productId" com o id do produto e as informações da venda', async () => {
+      const ID_TEST = 1;
+      const response = await SalesService.findById(ID_TEST);
+
+      expect(response[0]).to.have.a.property('productId');
+      expect(response[0]).to.have.a.property('date');
+      expect(response[0]).to.have.a.property('quantity');
     });
   });
 
   describe('quando o id informado é inválido', () => {
+    before(() => {
+      sinon.stub(SalesModel, 'findById').resolves({ isValid: false });
+      sinon.stub(SalesModel, 'getAll').resolves(salesDb);
+    });
+
+    after(() => {
+      SalesModel.findById.restore();
+      SalesModel.getAll.restore();
+    });
+
+    const ID_TEST = 7
     it('retorna um objeto', async () => {
-      const ID_TEST = 7
       const response = await SalesService.findById(ID_TEST);
 
       expect(response).to.be.an('object');
     });
 
     it('tal objeto possui uma chave "isValid" com o valor false', async () => {
-      const ID_TEST = 7
       const response = await SalesService.findById(ID_TEST);
 
       expect(response).to.have.a.property('isValid');
