@@ -219,19 +219,15 @@ describe('Controller - Altera o nome de um produto no DB através da rota PUT "/
   describe('quando o id informado é inválido', () => {
     const request = {};
     const response = {};
-    const PRODUCT_TEST = {
-      id: 7,
-      name: 'Tábua de Esmeralda',
-    };
 
     before(() => {
-      request.body = { name: PRODUCT_TEST.name };
+      request.body = { name: 'Tábua de Esmeralda' };
       request.params = { id: 7 };
 
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
 
-      sinon.stub(ProductService, 'update').resolves({ isValid: false });
+      sinon.stub(ProductService, 'update').resolves({ isValid: false, err: 404 });
     });
 
     after(() => ProductService.update.restore());

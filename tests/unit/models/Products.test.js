@@ -87,10 +87,11 @@ describe('Model - Encontra um produto através da rota GET "/products/:id"', () 
 
 describe('Model - Altera o nome de um produto no BD através da rota PUT "/products/:id"', () => {
   describe('quando alterado com sucesso', () => {
-    const PRODUCT_TEST = [{ affectedRows: 1 }];
+    const PRODUCT_TEST = [{ id: 1, name: 'Pedra Filosofal' }];
+    const MOCK_TEST = [{ affectedRows: 1 }];
 
     before(async () => {
-      sinon.stub(connection, 'execute').resolves(PRODUCT_TEST);
+      sinon.stub(connection, 'execute').resolves(MOCK_TEST);
     });
 
     after(async () => connection.execute.restore());

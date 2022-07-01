@@ -111,3 +111,20 @@ describe('Model - Encontra um produto através da rota GET "/sales/:id"', () => 
     });
   });
 });
+
+describe('Model - Altera o nome de um produto no BD através da rota PUT "/sales/:id"', () => {
+  describe('quando alterado com sucesso', () => {
+
+    it('retorna um objeto', async () => {
+      const response = await SalesModel.update(PRODUCT_TEST);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto contém a chave "affectedRows"', async () => {
+      const response = await SalesModel.update(PRODUCT_TEST);
+
+      expect(response).to.have.a.property('affectedRows');
+    });
+  });
+});
