@@ -114,15 +114,28 @@ describe('Model - Encontra uma venda através da rota GET "/sales/:id"', () => {
 
 describe('Model - Altera o nome de uma venda no BD através da rota PUT "/sales/:id"', () => {
   describe('quando alterado com sucesso', () => {
+    const SALE_TEST = {
+      saleId: 1,
+      saleUpdate: [
+        {
+          "productId": 1,
+          "quantity": 10
+        },
+        {
+          "productId": 2,
+          "quantity": 50
+        }
+      ],
+    };
 
     it('retorna um objeto', async () => {
-      const response = await SalesModel.update(PRODUCT_TEST);
+      const response = await SalesModel.update(SALE_TEST);
 
       expect(response).to.be.an('object');
     });
 
     it('tal objeto contém a chave "affectedRows"', async () => {
-      const response = await SalesModel.update(PRODUCT_TEST);
+      const response = await SalesModel.update(SALE_TEST);
 
       expect(response).to.have.a.property('affectedRows');
     });
