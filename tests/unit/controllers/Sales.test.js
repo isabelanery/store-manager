@@ -185,7 +185,11 @@ describe('Controller - Lista todas as vendas através da rota "/sales"', () => {
   before(() => {
     response.status = sinon.stub().returns(response);
     response.json = sinon.stub().returns(salesDb);
+
+    sinon.stub(SalesService, 'getAll').resolves(salesDb);
   });
+
+  after(() => SalesService.getAll.restore());
 
   describe('quando é retornado com sucesso', () => {
     it('é chamado o status com o código 200', async () => {
@@ -212,6 +216,14 @@ describe('Controller - Testa a rota "/sales/:id"', () => {
 
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns(saleDb[(request.params - 1)]);
+      
+      sinon.stub(SalesService, 'getAll').resolves(salesDb);
+      sinon.stub(SalesService, 'findById').resolves(saleDb);
+    });
+
+    after(() => {
+      SalesService.findById.restore();
+      SalesService.getAll.restore();
     });
 
     it('é chamado o status com o código 200', async () => {
@@ -233,8 +245,16 @@ describe('Controller - Testa a rota "/sales/:id"', () => {
 
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns({ message: 'Sale not found' });
+
+      sinon.stub(SalesService, 'getAll').resolves(salesDb);
+      sinon.stub(SalesService, 'findById').resolves(false);
     });
 
+    after(() => {
+      SalesService.findById.restore();
+      SalesService.getAll.restore();
+    });
+    
     it('é chamado o status com o código 404', async () => {
       await SalesControler.findById(request, response);
 

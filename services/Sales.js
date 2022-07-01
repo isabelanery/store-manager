@@ -58,13 +58,10 @@ const getAll = async () => {
 
 const findById = async (id) => {
   const sales = await getAll();
-
   const validateId = sales.some((item) => +item.saleId === +id);
-
-  if (!validateId) return { isValid: false };
+  if (!validateId) return false;
 
   const sale = await SalesModel.findById(id);
-
   return sale;
 };
 

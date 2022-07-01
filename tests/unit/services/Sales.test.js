@@ -230,17 +230,16 @@ describe('Service -  Encontra uma venda através da rota GET "/sales/:id"', () =
     });
 
     const ID_TEST = 7
-    it('retorna um objeto', async () => {
+    it('retorna um boolean', async () => {
       const response = await SalesService.findById(ID_TEST);
 
-      expect(response).to.be.an('object');
+      expect(response).to.be.an('boolean');
     });
 
-    it('tal objeto possui uma chave "isValid" com o valor false', async () => {
+    it('tal boolen tem o valor false', async () => {
       const response = await SalesService.findById(ID_TEST);
 
-      expect(response).to.have.a.property('isValid');
-      expect(response.isValid).to.equal(false);
+      expect(response).to.equal(false);
     });
   });
 });
