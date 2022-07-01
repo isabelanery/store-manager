@@ -35,7 +35,7 @@ const validateId = async (id) => {
   const products = await ProductsModel.getAll();
 
   if (!products.some((product) => +product.id === +id)) {
-    return { isValid: false };
+    return { isValid: false, err: 404 };
   }
 
   return { isValid: true };
@@ -43,6 +43,10 @@ const validateId = async (id) => {
 
 const update = async ({ id, name }) => {
   if ((await validateId(id)).isValid === false) return validateId(id);
+
+  const validation = isNameValid(name);
+
+  if (!validation.isNameValid) return validation;
 
   const response = await ProductsModel.update({ id, name });
 
