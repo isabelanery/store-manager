@@ -103,17 +103,17 @@ describe('Service - Insere um novo produto no DB através da rota POST "/product
 describe('Service - Altera o nome de um produto no DB através da rota PUT "/products/:id"', () => {
   describe('quando é alterado com sucesso', () => {
     const PRODUCT_TEST = { id: 1, name: 'Pedra Filosofal' };
-    // const MOCK_MODEL = { affectedRows: 1 };
+    const MOCK_MODEL = { affectedRows: 1 };
 
-    // before(() => {
-    //   sinon.stub(ProductModel, 'update').resolves(MOCK_MODEL);
-    //   sinon.stub(ProductModel, 'getAll').resolves(productsDb);
-    // });
+    before(() => {
+      sinon.stub(ProductModel, 'update').resolves(MOCK_MODEL);
+      sinon.stub(ProductModel, 'getAll').resolves(productsDb);
+    });
 
-    // after(() => {
-    //   ProductModel.update.restore();
-    //   ProductModel.getAll.restore();
-    // });
+    after(() => {
+      ProductModel.update.restore();
+      ProductModel.getAll.restore();
+    });
 
     it('retorna um objeto', async () => {
       const response = await ProductService.update(PRODUCT_TEST);
