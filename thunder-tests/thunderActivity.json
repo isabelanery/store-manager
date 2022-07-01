@@ -19,12 +19,17 @@
     "containerId": "",
     "name": "http://localhost:3000/products/1",
     "url": "http://localhost:3000/products/7",
-    "method": "GET",
+    "method": "PUT",
     "sortNum": 0,
     "created": "2022-06-29T21:53:17.494Z",
-    "modified": "2022-07-01T13:29:07.263Z",
+    "modified": "2022-07-01T16:02:22.385Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"name\": \"idk\"\n}",
+      "form": []
+    },
     "tests": []
   },
   {

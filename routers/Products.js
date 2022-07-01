@@ -7,7 +7,9 @@ const Products = require('../controllers/Products');
 router.route('/')
   .get(Products.getAll)
   .post(Products.create);
-
-router.get('/:id', Products.findById);
+  
+router.route('/:id')
+  .get(Products.findById)
+  .put(Products.update);
 
 module.exports = router;

@@ -193,15 +193,20 @@ describe('Controller - Altera o nome de um produto no DB através da rota PUT "/
     };
 
     before(() => {
-      request.body = PRODUCT_TEST;
+      request.body = { name: PRODUCT_TEST.name };
+      request.params = { id: 1 };
 
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
+
+      sinon.stub(ProductService, 'update').resolves(PRODUCT_TEST);
     });
 
-    it('é chamado o status com o código 201', async () => {
+    after(() => ProductService.update.restore());
+
+    it('é chamado o status com o código 200', async () => {
       await ProductsController.update(request, response);
-      expect(response.status.calledWith(201)).to.be.equal(true);
+      expect(response.status.calledWith(200)).to.be.equal(true);
     });
 
     it('retorna um objeto com as chaves "id" e "name"', async () => {
@@ -220,11 +225,16 @@ describe('Controller - Altera o nome de um produto no DB através da rota PUT "/
     };
 
     before(() => {
-      request.body = PRODUCT_TEST;
+      request.body = { name: PRODUCT_TEST.name };
+      request.params = { id: 7 };
 
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
+
+      sinon.stub(ProductService, 'update').resolves({ isValid: false });
     });
+
+    after(() => ProductService.update.restore());
 
     it('é chamado o status com o código 404', async () => {
       await ProductsController.update(request, response);
