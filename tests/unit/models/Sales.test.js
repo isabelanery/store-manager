@@ -83,7 +83,7 @@ describe('Model - Lista todos os produtos através da rota GET "/sales"', () => 
   });
 });
 
-describe('Model - Encontra um produto através da rota GET "/sales/:id"', () => {
+describe('Model - Encontra uma venda através da rota GET "/sales/:id"', () => {
   describe('quando o produto é encontrado com sucesso', () => {
     before(async () => {
       const execute = [saleDb];
@@ -112,7 +112,7 @@ describe('Model - Encontra um produto através da rota GET "/sales/:id"', () => 
   });
 });
 
-describe('Model - Altera o nome de um produto no BD através da rota PUT "/sales/:id"', () => {
+describe('Model - Altera o nome de uma venda no BD através da rota PUT "/sales/:id"', () => {
   describe('quando alterado com sucesso', () => {
 
     it('retorna um objeto', async () => {
