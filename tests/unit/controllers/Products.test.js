@@ -182,3 +182,61 @@ describe('Controller - Insere um novo produto no DB através da rota POST "/prod
     });
   })
 });
+
+describe('Controller - Altera o nome de um produto no DB através da rota PUT "/products/:id"', () => {
+  describe('quando é alterado com sucesso', () => {
+    const request = {};
+    const response = {};
+    const PRODUCT_TEST = {
+      id: 1,
+      name: 'Tábua de Esmeralda',
+    };
+
+    before(() => {
+      request.body = PRODUCT_TEST;
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+
+    it('é chamado o status com o código 201', async () => {
+      await ProductsController.update(request, response);
+      expect(response.status.calledWith(201)).to.be.equal(true);
+    });
+
+    it('retorna um objeto com as chaves "id" e "name"', async () => {
+      await ProductsController.update(request, response);
+
+      expect(response.json.calledWith(PRODUCT_TEST)).to.be.equal(true);
+    });
+  });
+
+  describe('quando o id informado é inválido', () => {
+    const request = {};
+    const response = {};
+    const PRODUCT_TEST = {
+      id: 7,
+      name: 'Tábua de Esmeralda',
+    };
+
+    before(() => {
+      request.body = PRODUCT_TEST;
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+
+    it('é chamado o status com o código 404', async () => {
+      await ProductsController.update(request, response);
+
+      expect(response.status.calledWith(404)).to.be.equal(true);
+    });
+
+    it('retorna um objeto com a mensagem de erro ""name" length must be at least 5 characters long"', async () => {
+      await ProductsController.update(request, response);
+      const errorMsg = { message: 'Product not found' };
+
+      expect(response.json.calledWith(errorMsg)).to.be.equal(true);
+    });
+  });
+});

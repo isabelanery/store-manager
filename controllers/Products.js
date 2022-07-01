@@ -29,8 +29,13 @@ const create = async (req, res) => {
   res.status(201).json(product);
 };
 
+const update = (_req, _res) => {
+
+};
+
 module.exports = {
   getAll,
   findById,
   create,
+  update,
 };
