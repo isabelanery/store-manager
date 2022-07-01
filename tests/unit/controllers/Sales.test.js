@@ -277,7 +277,7 @@ describe('Controller - Altera as informações da venda no DB através da rota P
   describe('quando é alterado com sucesso', () => {
     const SALE_TEST = {
       saleId: 1,
-      saleUpdate: [
+      itemsUpdated: [
         {
           "productId": 1,
           "quantity": 10
@@ -290,13 +290,16 @@ describe('Controller - Altera as informações da venda no DB através da rota P
     };
     
     before(() => {
-      request.body = SALE_TEST.saleUpdate;
+      request.body = SALE_TEST.itemsUpdated;
       request.params = { id: 1 };
 
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
+
+      sinon.stub(SalesService, 'update').resolves(SALE_TEST);
     });
 
+    after(() => SalesService.update.restore());
 
     it('é chamado o status com o código 200', async () => {
       await SalesControler.update(request, response);
@@ -308,30 +311,43 @@ describe('Controller - Altera as informações da venda no DB através da rota P
 
       expect(response.json.calledWith(SALE_TEST)).to.be.equal(true);
     });
+  });
 
-    describe('quando o id da venda informado é inválido', () => {
+  describe('quando o id da venda informado é inválido', () => {
+    const SALE_TEST = [
+      {
+        "productId": 1,
+        "quantity": 10
+      },
+      {
+        "productId": 2,
+        "quantity": 50
+      }
+    ];
 
-      before(() => {
-        request.body = SALE_TEST.saleUpdate;
-        request.params = { id: 7 };
+    before(() => {
+      request.body = SALE_TEST;
+      request.params = { id: 7 };
 
-        response.status = sinon.stub().returns(response);
-        response.json = sinon.stub().returns();
-      });
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    
+      sinon.stub(SalesService, 'update').resolves({ isValid: false, err: { code: 404 } });
+    });
 
-      it('é chamado o status com o código 404', async () => {
-        await SalesControler.update(request, response);
+    after(() => SalesService.update.restore());
 
-        expect(response.status.calledWith(404)).to.be.equal(true);
-      });
+    it('é chamado o status com o código 404', async () => {
+      await SalesControler.update(request, response);
 
-      it('retorna um objeto com a mensagem de erro "Sale not found"', async () => {
-        await SalesControler.update(request, response);
-        const errorMsg = { message: 'Sale not found' };
+      expect(response.status.calledWith(404)).to.be.equal(true);
+    });
 
-        expect(response.json.calledWith(errorMsg)).to.be.equal(true);
-      });
+    it('retorna um objeto com a mensagem de erro "Sale not found"', async () => {
+      await SalesControler.update(request, response);
+      const errorMsg = { message: 'Sale not found' };
 
+      expect(response.json.calledWith(errorMsg)).to.be.equal(true);
     });
   });
 });
