@@ -40,9 +40,14 @@ const update = async (req, res) => {
   res.status(200).json(response);
 };
 
+const remove = () => {
+
+};
+
 module.exports = {
   getAll,
   findById,
   create,
   update,
+  remove,
 };

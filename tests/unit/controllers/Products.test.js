@@ -242,8 +242,48 @@ describe('Controller - Altera o nome de um produto no DB através da rota PUT "/
       expect(response.status.calledWith(404)).to.be.equal(true);
     });
 
-    it('retorna um objeto com a mensagem de erro ""name" length must be at least 5 characters long"', async () => {
+    it('retorna um objeto com a mensagem de erro "Product not found"', async () => {
       await ProductsController.update(request, response);
+      const errorMsg = { message: 'Product not found' };
+
+      expect(response.json.calledWith(errorMsg)).to.be.equal(true);
+    });
+  });
+});
+
+describe('Controller - Remove um produto no BD através da rota DELETE "/products/:id"', () => {
+  const response = {};
+  const request = {};
+
+  describe('quando deletado com sucesso', () => {
+    before(() => {
+      request.params = 1;
+
+      response.status = sinon.stub().returns(response);
+    });
+
+    it('é chamado o status com o código 204', async () => {
+      await ProductsController.remove(request, response);
+      expect(response.status.calledWith(204)).to.be.equal(true);
+    });
+  });
+
+  describe('quando o id informado é inválido', () => {
+    before(() => {
+      request.params = 7;
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+
+    it('é chamado o status com o código 404', async () => {
+      await ProductsController.remove(request, response);
+
+      expect(response.status.calledWith(404)).to.be.equal(true);
+    });
+
+    it('retorna um objeto com a mensagem de erro "Product not found"', async () => {
+      await ProductsController.remove(request, response);
       const errorMsg = { message: 'Product not found' };
 
       expect(response.json.calledWith(errorMsg)).to.be.equal(true);
