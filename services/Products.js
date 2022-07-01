@@ -49,9 +49,19 @@ const update = async ({ id, name }) => {
   if (response.affectedRows === 1) return { id, name };
 };
 
+const remove = async (id) => {
+  if ((await validateId(id)).isValid === false) return validateId(id);
+
+  const response = await ProductsModel.remove(id);
+
+  // return console.log(response);
+  if (response.affectedRows) return { removed: true };
+};
+
 module.exports = {
   getAll,
   findById,
   create,
   update,
+  remove,
 };

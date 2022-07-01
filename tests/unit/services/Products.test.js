@@ -155,3 +155,59 @@ describe('Service - Altera o nome de um produto no DB através da rota PUT "/pro
     });
   });
 });
+
+describe('Service - Remove um produto no BD através da rota DELETE "/products/:id"', () => {
+  describe('quando deletado com sucesso', () => {
+    const PRODUCT_TEST = 1;
+    const MOCK_MODEL = { affectedRows: 1 };
+
+    before(() => {
+      sinon.stub(ProductModel, 'remove').resolves(MOCK_MODEL);
+      sinon.stub(ProductModel, 'getAll').resolves(productsDb);
+    });
+
+    after(() => {
+      ProductModel.remove.restore();
+      ProductModel.getAll.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await ProductService.remove(PRODUCT_TEST);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto contém a chave "removed" com o valor true', async () => {
+      const response = await ProductService.remove(PRODUCT_TEST);
+
+      expect(response).to.have.a.property('removed');
+      expect(response.removed).to.be.equal(true);
+    });
+  });
+
+  describe('quando o id informado é inválido', () => {
+    const PRODUCT_TEST = { id: 7 };
+
+    before(() => {
+      sinon.stub(ProductModel, 'remove').resolves();
+      sinon.stub(ProductModel, 'getAll').resolves(productsDb);
+    });
+
+    after(() => {
+      ProductModel.remove.restore();
+      ProductModel.getAll.restore();
+    });
+    it('retorna um objeto', async () => {
+      const response = await ProductService.remove(PRODUCT_TEST);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto contém a chave "isValid" com o valor false', async () => {
+      const response = await ProductService.remove(PRODUCT_TEST);
+
+      expect(response).to.have.a.property('isValid');
+      expect(response.isValid).to.be.equal(false);
+    });
+  });
+});
