@@ -128,6 +128,14 @@ describe('Model - Altera o nome de uma venda no BD através da rota PUT "/sales/
       ],
     };
 
+    before(async () => {
+      const execute = [{ affectedRows: 1 }];
+      
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+
+    after(async () => connection.execute.restore());
+
     it('retorna um objeto', async () => {
       const response = await SalesModel.update(SALE_TEST);
 
@@ -138,6 +146,7 @@ describe('Model - Altera o nome de uma venda no BD através da rota PUT "/sales/
       const response = await SalesModel.update(SALE_TEST);
 
       expect(response).to.have.a.property('affectedRows');
+      expect(response.affectedRows).to.be.equal(SALE_TEST.saleUpdate.length);
     });
   });
 });
