@@ -28,6 +28,33 @@ describe('Model - Lista todos os produtos através da rota GET "/products"', () 
   });
 });
 
+describe('Model - Insere um novo produto no DB através da rota POST "/products"', () => {
+  describe('quando é inserido com sucesso', () => {
+    const newProduct = {
+      name: 'Capa da Invisibilidade',
+    };
+    
+    before(async () => {
+      const execute = [{ insertId: 4 }];
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+
+    after(async () => connection.execute.restore() )
+
+    it('retorna um objeto', async () => {
+      const response = await ProductModel.create(newProduct);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto possui o "id" do novo produto inserido', async () => {
+      const response = await ProductModel.create(newProduct);
+
+      expect(response).to.have.a.property('id');
+    });
+  });
+});
 
 describe('Model - Encontra um produto através da rota GET "/products/:id"', () => {
   describe('quando o produto é encontrado com sucesso', () => {
@@ -58,30 +85,20 @@ describe('Model - Encontra um produto através da rota GET "/products/:id"', () 
   });
 });
 
-describe('Model - Insere um novo produto no DB através da rota POST "/products"', () => {
-  describe('quando é inserido com sucesso', () => {
-    const newProduct = {
-      name: 'Capa da Invisibilidade',
-    };
-    
-    before(async () => {
-      const execute = [{ insertId: 4 }];
-
-      sinon.stub(connection, 'execute').resolves(execute);
-    });
-
-    after(async () => connection.execute.restore() )
+describe('Model - Altera o nome de um produto no DB através da rota PUT "/product/:id"', () => {
+  describe('quando alterado com sucesso', () => {
+    const ID_TEST = 1;
 
     it('retorna um objeto', async () => {
-      const response = await ProductModel.create(newProduct);
+      const response = await ProductModel.update(ID_TEST);
 
-      expect(response).to.be.an('object');
+      expect(response).to.be.an('boolean');
     });
 
-    it('tal objeto possui o "id" do novo produto inserido', async () => {
-      const response = await ProductModel.create(newProduct);
+    it('boolean deve conter o valor true', async () => {
+      const response = await ProductModel.update(ID_TEST);
 
-      expect(response).to.have.a.property('id');
+      expect(response).to.equal(true);
     });
   });
 });

@@ -31,8 +31,13 @@ const create = async ({ name }) => {
   };
 };
 
+const update = async () => {
+
+};
+
 module.exports = {
   getAll,
   findById,
   create,
+  update,
 };
