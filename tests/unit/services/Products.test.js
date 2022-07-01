@@ -99,3 +99,37 @@ describe('Service - Insere um novo produto no DB através da rota POST "/product
     });
   });
 });
+
+describe('Service - Altera o nome de um produto no DB através da rota PUT "/products/:id"', () => {
+  describe('quando é alterado com sucesso', () => {
+    const PRODUCT_TEST = { id: 1, name: 'Testing' };
+
+    it('retorna um objeto', async () => {
+      const response = await ProductService.update(PRODUCT_TEST);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto contém as chaved "id" e nome atualizado do produto', async () => {
+      const response = await ProductService.update(PRODUCT_TEST);
+
+      expect(response).to.have.a.property('id');
+      expect(response).to.have.a.property('name');
+    });
+  });
+
+  describe('quando o id informado é invalido', () => {
+    const PRODUCT_TEST = { id: 7, name: 'Testing' };
+
+    it('retorna um objeto', async () => {
+      const response = await ProductService.update(PRODUCT_TEST);
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto contém uma chave "isValid" com o valor "false"', async () => {
+      const response = await ProductService.update(PRODUCT_TEST);
+      expect(response).to.contain.property('isValid');
+      expect(response.isValid).to.be.equal(false);
+    });
+  });
+});

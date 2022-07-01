@@ -33,7 +33,7 @@ const findById = async (req, res) => {
 
   res.status(200).json(sale);
 
-  return console.log(sale);
+  return sale;
 };
 
 module.exports = {

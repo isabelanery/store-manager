@@ -31,8 +31,23 @@ const create = async ({ name }) => {
   };
 };
 
-const update = async () => {
+const update = async ({ id, name }) => {
+  const [response] = await connection.execute(
+    `UPDATE StoreManager.products
+      SET name = ?
+      WHERE id = ?`,
+    [name, id],
+  );
 
+  // const [response] = await connection.execute(
+  //   `SELECT * FROM StoreManager.products
+  //   WHERE id = ?`,
+  //   [id],
+  // );
+
+  return response;
+  // return console.log(response);
+  // return response.affectedRows;
 };
 
 module.exports = {

@@ -85,20 +85,27 @@ describe('Model - Encontra um produto através da rota GET "/products/:id"', () 
   });
 });
 
-describe('Model - Altera o nome de um produto no DB através da rota PUT "/product/:id"', () => {
+describe('Model - Altera o nome de um produto no DB através da rota PUT "/products/:id"', () => {
   describe('quando alterado com sucesso', () => {
-    const ID_TEST = 1;
+    const PRODUCT_TEST = [{ affectedRows: 1 }];
 
-    it('retorna um objeto', async () => {
-      const response = await ProductModel.update(ID_TEST);
-
-      expect(response).to.be.an('boolean');
+    before(async () => {
+      sinon.stub(connection, 'execute').resolves(PRODUCT_TEST);
     });
 
-    it('boolean deve conter o valor true', async () => {
-      const response = await ProductModel.update(ID_TEST);
+    after(async () => connection.execute.restore());
 
-      expect(response).to.equal(true);
+    it('retorna um objeto', async () => {
+      const response = await ProductModel.update(PRODUCT_TEST);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto contém as chaved "id" e nome atualizado do produto', async () => {
+      const response = await ProductModel.update(PRODUCT_TEST);
+      
+      expect(response).to.have.a.property('affectedRows');
+      // expect(response).to.have.a.property('name');
     });
   });
 });
