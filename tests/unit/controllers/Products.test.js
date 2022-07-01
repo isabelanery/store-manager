@@ -260,7 +260,10 @@ describe('Controller - Remove um produto no BD através da rota DELETE "/product
       request.params = 1;
 
       response.status = sinon.stub().returns(response);
+      sinon.stub(ProductService, 'remove').resolves({ removed: true });
     });
+
+    after(() => ProductService.remove.restore());
 
     it('é chamado o status com o código 204', async () => {
       await ProductsController.remove(request, response);
@@ -274,7 +277,10 @@ describe('Controller - Remove um produto no BD através da rota DELETE "/product
 
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
+      sinon.stub(ProductService, 'remove').resolves({ isValid: false });
     });
+
+    after(() => ProductService.remove.restore());
 
     it('é chamado o status com o código 404', async () => {
       await ProductsController.remove(request, response);

@@ -40,8 +40,14 @@ const update = async (req, res) => {
   res.status(200).json(response);
 };
 
-const remove = () => {
+const remove = async (req, res) => {
+  const { id } = req.params;
 
+  const response = await ProductsService.remove(id);
+
+  if (response.isValid === false) return res.status(404).json({ message: 'Product not found' });
+
+  res.status(204);
 };
 
 module.exports = {
