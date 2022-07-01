@@ -14,7 +14,7 @@ const create = async (data) => {
       `INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) 
         VALUES (
           ?,
-          (SELECT id FROM products WHERE id = ?),
+          (SELECT id FROM StoreManager.products WHERE id = ?),
           ?)`,
       [saleId, sale.productId, sale.quantity],
     );
