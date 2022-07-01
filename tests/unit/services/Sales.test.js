@@ -243,3 +243,65 @@ describe('Service -  Encontra uma venda através da rota GET "/sales/:id"', () =
     });
   });
 });
+
+describe('Service - Altera o nome de uma venda no DB através da rota PUT "/sales/:id"', () => {
+  describe('quando é alterado com sucesso', () => {
+    const SALE_TEST = {
+      saleId: 1,
+      saleUpdate: [
+        {
+          "productId": 1,
+          "quantity": 10
+        },
+        {
+          "productId": 2,
+          "quantity": 50
+        }
+      ],
+    };
+    it('retorna um objeto', async () => {
+      const response = await SalesService.update(SALE_TEST);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto contém a chave "affectedRows" com o número de linhas alteradas', async () => {
+      const response = await SalesService.update(PRODUCT_TEST);
+
+      expect(response).to.have.a.property('affectedRows');
+    });
+  });
+
+  describe('quando não é possível alterar as informações da venda', () => {
+    const SALE_TEST = {
+      saleId: 7,
+      saleUpdate: [
+        {
+          "productId": 1,
+          "quantity": 10
+        },
+        {
+          "productId": 2,
+          "quantity": 50
+        }
+      ],
+    };
+    
+    it('retorna um objeto', async () => {
+      const response = await SalesService.update(SALE_TEST);
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto contém uma chave "isValid" com o valor "false"', async () => {
+      const response = await SalesService.update(SALE_TEST);
+      expect(response).to.contain.property('isValid');
+      expect(response.isValid).to.be.equal(false);
+    });
+
+    it('tal objeto contém uma chave "err"', async () => {
+      const response = await SalesService.update(SALE_TEST);
+      expect(response).to.contain.property('err');
+      // expect(response.isValid).to.be.equal(false);
+    });
+  });
+});
