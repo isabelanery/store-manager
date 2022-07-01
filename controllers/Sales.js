@@ -36,8 +36,13 @@ const findById = async (req, res) => {
   return sale;
 };
 
+const update = () => {
+
+};
+
 module.exports = {
   create,
   getAll,
   findById,
+  update,
 };

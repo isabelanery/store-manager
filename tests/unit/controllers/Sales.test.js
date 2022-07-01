@@ -269,3 +269,69 @@ describe('Controller - Testa a rota "/sales/:id"', () => {
     });
   });
 });
+
+describe('Controller - Altera as informações da venda no DB através da rota PUT "/sales/:id"', () => {
+  const request = {};
+  const response = {};
+
+  describe('quando é alterado com sucesso', () => {
+    const SALE_TEST = {
+      saleId: 1,
+      saleUpdate: [
+        {
+          "productId": 1,
+          "quantity": 10
+        },
+        {
+          "productId": 2,
+          "quantity": 50
+        }
+      ],
+    };
+    
+    before(() => {
+      request.body = SALE_TEST.saleUpdate;
+      request.params = { id: 1 };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+
+
+    it('é chamado o status com o código 200', async () => {
+      await SalesControler.update(request, response);
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('retorna um objeto com as chaves "id" e "name"', async () => {
+      await SalesControler.update(request, response);
+
+      expect(response.json.calledWith(SALE_TEST)).to.be.equal(true);
+    });
+
+    describe('quando o id da venda informado é inválido', () => {
+
+      before(() => {
+        request.body = SALE_TEST.saleUpdate;
+        request.params = { id: 7 };
+
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+      });
+
+      it('é chamado o status com o código 404', async () => {
+        await SalesControler.update(request, response);
+
+        expect(response.status.calledWith(404)).to.be.equal(true);
+      });
+
+      it('retorna um objeto com a mensagem de erro "Sale not found"', async () => {
+        await SalesControler.update(request, response);
+        const errorMsg = { message: 'Sale not found' };
+
+        expect(response.json.calledWith(errorMsg)).to.be.equal(true);
+      });
+
+    });
+  });
+});
