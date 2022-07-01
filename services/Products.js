@@ -14,7 +14,7 @@ const findById = async (id) => {
   return product[0];
 };
 
-const isValid = (name) => {
+const isNameValid = (name) => {
   if (!name || typeof name !== 'string') return { isNameValid: false, err: 400 };
   if (name.length < 5) return { isNameValid: false, err: 422 };
 
@@ -22,7 +22,7 @@ const isValid = (name) => {
 };
 
 const create = async ({ name }) => {
-  const validation = isValid(name);
+  const validation = isNameValid(name);
 
   if (!validation.isNameValid) return validation;
 
@@ -31,8 +31,10 @@ const create = async ({ name }) => {
   return { id, name };
 };
 
-const update = async ({ _id, _name }) => {
-  
+const update = async ({ id, name }) => {
+  const response = await ProductsModel.update({ id, name });
+
+  if (response.affectedRows === 1) return { id, name };
 };
 
 module.exports = {

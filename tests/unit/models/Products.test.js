@@ -101,11 +101,11 @@ describe('Model - Altera o nome de um produto no DB através da rota PUT "/produ
       expect(response).to.be.an('object');
     });
 
-    it('tal objeto contém as chaved "id" e nome atualizado do produto', async () => {
+    it('tal objeto contém a chave "affectedRows" com o valor 1', async () => {
       const response = await ProductModel.update(PRODUCT_TEST);
       
       expect(response).to.have.a.property('affectedRows');
-      // expect(response).to.have.a.property('name');
+      expect(response.affectedRows).to.be.equal(1);
     });
   });
 });

@@ -39,15 +39,7 @@ const update = async ({ id, name }) => {
     [name, id],
   );
 
-  // const [response] = await connection.execute(
-  //   `SELECT * FROM StoreManager.products
-  //   WHERE id = ?`,
-  //   [id],
-  // );
-
   return response;
-  // return console.log(response);
-  // return response.affectedRows;
 };
 
 module.exports = {
