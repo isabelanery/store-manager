@@ -42,9 +42,14 @@ const update = async ({ id, name }) => {
   return response;
 };
 
+const remove = async () => {
+
+};
+
 module.exports = {
   getAll,
   findById,
   create,
   update,
+  remove,
 };

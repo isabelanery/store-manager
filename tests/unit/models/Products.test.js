@@ -28,7 +28,7 @@ describe('Model - Lista todos os produtos através da rota GET "/products"', () 
   });
 });
 
-describe('Model - Insere um novo produto no DB através da rota POST "/products"', () => {
+describe('Model - Insere um novo produto no BD através da rota POST "/products"', () => {
   describe('quando é inserido com sucesso', () => {
     const newProduct = {
       name: 'Capa da Invisibilidade',
@@ -85,7 +85,7 @@ describe('Model - Encontra um produto através da rota GET "/products/:id"', () 
   });
 });
 
-describe('Model - Altera o nome de um produto no DB através da rota PUT "/products/:id"', () => {
+describe('Model - Altera o nome de um produto no BD através da rota PUT "/products/:id"', () => {
   describe('quando alterado com sucesso', () => {
     const PRODUCT_TEST = [{ affectedRows: 1 }];
 
@@ -104,6 +104,25 @@ describe('Model - Altera o nome de um produto no DB através da rota PUT "/produ
     it('tal objeto contém a chave "affectedRows" com o valor 1', async () => {
       const response = await ProductModel.update(PRODUCT_TEST);
       
+      expect(response).to.have.a.property('affectedRows');
+      expect(response.affectedRows).to.be.equal(1);
+    });
+  });
+});
+
+describe('Model - Remove um produto no BD através da rota DELETE "/products/:id"', () => {
+  describe('quando deletado com sucesso', () => {
+    const PRODUCT_TEST = { id: 1 };
+
+    it('retorna um objeto', async () => {
+      const response = await ProductModel.remove(PRODUCT_TEST);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto contém a chave "affectedRows" com o valor 1', async () => {
+      const response = await ProductModel.remove(PRODUCT_TEST);
+
       expect(response).to.have.a.property('affectedRows');
       expect(response.affectedRows).to.be.equal(1);
     });
