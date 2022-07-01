@@ -177,6 +177,15 @@ describe('Service - Lista todas as vendas através da rota "/sales"', () => {
       expect(response[0]).to.be.an('object');
     });
 
+    it('tais objetos possuem uma chave "saleId" com o id do produto e as informações da venda', async () => {
+      const ID_TEST = 1;
+      const SALEID_TEST = salesDb[0].saleId;
+      const response = await SalesService.getAll(ID_TEST);
+
+      expect(response[0]).to.have.a.property('saleId');
+      expect(response[0].saleId).to.equal(SALEID_TEST);
+    });
+
     it('tais objetos possuem uma chave "productId" com o id do produto e as informações da venda', async () => {
       const ID_TEST = 1;
       const PRODUCTID_TEST = salesDb[0].productId;
@@ -259,6 +268,19 @@ describe('Service - Altera o nome de uma venda no DB através da rota PUT "/sale
         }
       ],
     };
+
+    const MOCK_MODEL = { affectedRows: SALE_TEST.saleUpdate.length };
+
+    before(() => {
+      sinon.stub(SalesModel, 'update').resolves(MOCK_MODEL);
+      sinon.stub(SalesModel, 'getAll').resolves(salesDb);
+    });
+
+    after(() => {
+      SalesModel.update.restore();
+      SalesModel.getAll.restore();
+    });
+
     it('retorna um objeto', async () => {
       const response = await SalesService.update(SALE_TEST);
 
@@ -266,7 +288,7 @@ describe('Service - Altera o nome de uma venda no DB através da rota PUT "/sale
     });
 
     it('tal objeto contém a chave "affectedRows" com o número de linhas alteradas', async () => {
-      const response = await SalesService.update(PRODUCT_TEST);
+      const response = await SalesService.update(SALE_TEST);
 
       expect(response).to.have.a.property('affectedRows');
     });
@@ -286,7 +308,18 @@ describe('Service - Altera o nome de uma venda no DB através da rota PUT "/sale
         }
       ],
     };
+    const MOCK_MODEL = { affectedRows: SALE_TEST.saleUpdate.length };
     
+    before(() => {
+      sinon.stub(SalesModel, 'update').resolves(MOCK_MODEL);
+      sinon.stub(SalesModel, 'getAll').resolves(salesDb);
+    });
+
+    after(() => {
+      SalesModel.update.restore();
+      SalesModel.getAll.restore();
+    });
+
     it('retorna um objeto', async () => {
       const response = await SalesService.update(SALE_TEST);
       expect(response).to.be.an('object');
@@ -298,10 +331,10 @@ describe('Service - Altera o nome de uma venda no DB através da rota PUT "/sale
       expect(response.isValid).to.be.equal(false);
     });
 
-    it('tal objeto contém uma chave "err"', async () => {
+    it('tal objeto contém uma chave "err", a qual é um objeto', async () => {
       const response = await SalesService.update(SALE_TEST);
       expect(response).to.contain.property('err');
-      // expect(response.isValid).to.be.equal(false);
+      expect(response.err).to.be.an('object');
     });
   });
 });

@@ -65,8 +65,27 @@ const findById = async (id) => {
   return sale;
 };
 
+const validateSale = async (id) => {
+  const sales = await getAll();
+
+  if (!sales.some((sale) => +sale.saleId === id)) {
+    return { isValid: false, err: { code: 404, message: 'Sale not found' } };
+  }
+
+  return { isValid: true };
+};
+
+const update = async ({ saleId, saleUpdate }) => {
+  if ((await validateSale(saleId)).isValid === false) return validateSale(saleId);
+
+  const response = await SalesModel.update({ saleId, saleUpdate });
+
+  return response;
+};
+
 module.exports = {
   create,
   getAll,
   findById,
+  update,
 };
