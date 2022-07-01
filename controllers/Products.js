@@ -30,7 +30,7 @@ const create = async (req, res) => {
 };
 
 const update = (_req, _res) => {
-
+  
 };
 
 module.exports = {

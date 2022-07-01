@@ -31,7 +31,19 @@ const create = async ({ name }) => {
   return { id, name };
 };
 
+const validateId = async (id) => {
+  const products = await ProductsModel.getAll();
+
+  if (!products.some((product) => +product.id === +id)) {
+    return { isValid: false };
+  }
+
+  return { isValid: true };
+};
+
 const update = async ({ id, name }) => {
+  if ((await validateId(id)).isValid === false) return validateId(id);
+
   const response = await ProductsModel.update({ id, name });
 
   if (response.affectedRows === 1) return { id, name };
