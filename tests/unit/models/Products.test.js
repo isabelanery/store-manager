@@ -113,6 +113,15 @@ describe('Model - Altera o nome de um produto no BD através da rota PUT "/produ
 describe('Model - Remove um produto no BD através da rota DELETE "/products/:id"', () => {
   describe('quando deletado com sucesso', () => {
     const PRODUCT_TEST = { id: 1 };
+    const MOCK_TEST = { affectedRows: 1 };
+
+    before(async () => {
+      const execute = [MOCK_TEST];
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+
+    after(async () => connection.execute.restore());
 
     it('retorna um objeto', async () => {
       const response = await ProductModel.remove(PRODUCT_TEST);
