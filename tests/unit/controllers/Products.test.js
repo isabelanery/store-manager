@@ -124,63 +124,63 @@ describe('Controller - Insere um novo produto no DB através da rota POST "/prod
     });
   });
 
-  describe('quando o nome não é informado', () => {
-    const request = {};
-    const response = {};
+  // describe('quando o nome não é informado', () => {
+  //   const request = {};
+  //   const response = {};
 
-    before(() => {
-      request.body = { name: '' };
+  //   before(() => {
+  //     request.body = { name: '' };
 
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+  //     response.status = sinon.stub().returns(response);
+  //     response.json = sinon.stub().returns();
 
-      sinon.stub(ProductService, 'create').resolves({ err: 400 });
-    });
+  //     sinon.stub(ProductService, 'create').resolves({ err: 400 });
+  //   });
 
-    after(() => ProductService.create.restore());
+  //   after(() => ProductService.create.restore());
 
-    it('é chamado o status com o código 400', async () => {
-      await ProductsController.create(request, response);
+  //   it('é chamado o status com o código 400', async () => {
+  //     await ProductsController.create(request, response);
 
-      expect(response.status.calledWith(400)).to.be.equal(true);
-    });
+  //     expect(response.status.calledWith(400)).to.be.equal(true);
+  //   });
 
-    it('retorna um objeto com a mensagem de erro ""name" is required"', async () => {
-      await ProductsController.create(request, response);
-      const errorMsg = { message: '"name" is required' };
+  //   it('retorna um objeto com a mensagem de erro ""name" is required"', async () => {
+  //     await ProductsController.create(request, response);
+  //     const errorMsg = { message: '"name" is required' };
 
-      expect(response.json.calledWith(errorMsg)).to.be.equal(true);
-    });
-  });
+  //     expect(response.json.calledWith(errorMsg)).to.be.equal(true);
+  //   });
+  // });
 
-  describe('quando o nome informado é inválido', () => {
-    const request = {};
-    const response = {};
+  // describe('quando o nome informado é inválido', () => {
+  //   const request = {};
+  //   const response = {};
 
-    before(() => {
-      request.body = {};
+  //   before(() => {
+  //     request.body = {};
 
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+  //     response.status = sinon.stub().returns(response);
+  //     response.json = sinon.stub().returns();
 
-      sinon.stub(ProductService, 'create').resolves({ err: 422 });
-    });
+  //     sinon.stub(ProductService, 'create').resolves({ err: 422 });
+  //   });
 
-    after(() => ProductService.create.restore());
+  //   after(() => ProductService.create.restore());
 
-    it('é chamado o status com o código 422', async () => {
-      await ProductsController.create(request, response);
+  //   it('é chamado o status com o código 422', async () => {
+  //     await ProductsController.create(request, response);
 
-      expect(response.status.calledWith(422)).to.be.equal(true);
-    });
+  //     expect(response.status.calledWith(422)).to.be.equal(true);
+  //   });
 
-    it('retorna um objeto com a mensagem de erro ""name" length must be at least 5 characters long"', async () => {
-      await ProductsController.create(request, response);
-      const errorMsg = { message: '"name" length must be at least 5 characters long' };
+  //   it('retorna um objeto com a mensagem de erro ""name" length must be at least 5 characters long"', async () => {
+  //     await ProductsController.create(request, response);
+  //     const errorMsg = { message: '"name" length must be at least 5 characters long' };
 
-      expect(response.json.calledWith(errorMsg)).to.be.equal(true);
-    });
-  })
+  //     expect(response.json.calledWith(errorMsg)).to.be.equal(true);
+  //   });
+  // })
 });
 
 describe('Controller - Altera o nome de um produto no DB através da rota PUT "/products/:id"', () => {
@@ -216,35 +216,35 @@ describe('Controller - Altera o nome de um produto no DB através da rota PUT "/
     });
   });
 
-  describe('quando o id informado é inválido', () => {
-    const request = {};
-    const response = {};
+  // describe('quando o id informado é inválido', () => {
+  //   const request = {};
+  //   const response = {};
 
-    before(() => {
-      request.body = { name: 'Tábua de Esmeralda' };
-      request.params = { id: 7 };
+  //   before(() => {
+  //     request.body = { name: 'Tábua de Esmeralda' };
+  //     request.params = { id: 7 };
 
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+  //     response.status = sinon.stub().returns(response);
+  //     response.json = sinon.stub().returns();
 
-      sinon.stub(ProductService, 'update').resolves({ isValid: false, err: 404 });
-    });
+  //     sinon.stub(ProductService, 'update').resolves({ isValid: false, err: 404 });
+  //   });
 
-    after(() => ProductService.update.restore());
+  //   after(() => ProductService.update.restore());
 
-    it('é chamado o status com o código 404', async () => {
-      await ProductsController.update(request, response);
+  //   it('é chamado o status com o código 404', async () => {
+  //     await ProductsController.update(request, response);
 
-      expect(response.status.calledWith(404)).to.be.equal(true);
-    });
+  //     expect(response.status.calledWith(404)).to.be.equal(true);
+  //   });
 
-    it('retorna um objeto com a mensagem de erro "Product not found"', async () => {
-      await ProductsController.update(request, response);
-      const errorMsg = { message: 'Product not found' };
+  //   it('retorna um objeto com a mensagem de erro "Product not found"', async () => {
+  //     await ProductsController.update(request, response);
+  //     const errorMsg = { message: 'Product not found' };
 
-      expect(response.json.calledWith(errorMsg)).to.be.equal(true);
-    });
-  });
+  //     expect(response.json.calledWith(errorMsg)).to.be.equal(true);
+  //   });
+  // });
 });
 
 describe('Controller - Remove um produto no BD através da rota DELETE "/products/:id"', () => {
