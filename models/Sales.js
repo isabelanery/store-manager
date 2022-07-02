@@ -77,8 +77,13 @@ const update = async ({ saleId, saleUpdate }) => {
   return { affectedRows: response.length };
 };
 
-const remove = async () => {
+const remove = async (id) => {
+  const [response] = await connection.execute(
+    'DELETE FROM StoreManager.sales WHERE id = ?',
+    [id],
+  );
 
+  return response;
 };
 
 module.exports = {

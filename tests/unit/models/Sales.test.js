@@ -155,6 +155,14 @@ describe('Model - Remove uma venda no BD através da rota DELETE "/sales/:id"', 
   describe('quando deletada com sucesso', () => {
     const SALE_TEST = { id: 1 };
 
+    before(async () => {
+      const execute = [{ affectedRows: 1 }];
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+
+    after(async () => connection.execute.restore());
+
     it('retorna um objeto', async () => {
       const response = await SalesModel.remove(SALE_TEST);
 
