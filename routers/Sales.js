@@ -1,4 +1,6 @@
 const express = require('express');
+const rescue = require('express-rescue');
+
 const validate = require('../middlewares/validation');
 
 const router = express.Router();
@@ -6,20 +8,23 @@ const router = express.Router();
 const Sales = require('../controllers/Sales');
 
 router.route('/')
-  .get(Sales.getAll)
+  .get(rescue(Sales.getAll))
   .post(
-    validate.saleProductsId,
+    rescue(validate.saleProductsId),
     validate.saleProductsQuantity,
-    Sales.create,
+    rescue(Sales.create),
   );
 
 router.route('/:id')
-  .get(Sales.findById)
+  .get(rescue(Sales.findById))
   .put(
-    validate.saleProductsId,
+    rescue(validate.saleProductsId),
     validate.saleProductsQuantity,
-    Sales.update,
+    rescue(Sales.update),
   )
-  .delete(validate.saleId, Sales.remove);
+  .delete(
+    rescue(validate.saleId),
+    rescue(Sales.remove),
+  );
 
 module.exports = router;

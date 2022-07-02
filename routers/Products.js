@@ -1,4 +1,5 @@
 const express = require('express');
+const rescue = require('express-rescue');
 const validate = require('../middlewares/validation');
 
 const router = express.Router();
@@ -6,15 +7,25 @@ const router = express.Router();
 const Products = require('../controllers/Products');
 
 router.route('/')
-  .get(Products.getAll)
-  .post(validate.productName, Products.create);
+  .get(rescue(Products.getAll))
+  .post(
+    validate.productName,
+    rescue(Products.create),
+  );
   
 router.route('/search')
-  .get(Products.search);
+  .get(rescue(Products.search));
 
 router.route('/:id')
-  .get(Products.findById)
-  .put(validate.productId, validate.productName, Products.update)
-  .delete(validate.productId, Products.remove);
+  .get(rescue(Products.findById))
+  .put(
+    rescue(validate.productId),
+    validate.productName,
+    rescue(Products.update),
+  )
+  .delete(
+    rescue(validate.productId),
+    rescue(Products.remove),
+  );
 
 module.exports = router;
