@@ -358,10 +358,13 @@ describe('Controller - Remove uma venda no BD através da rota DELETE "/sales/:i
 
   describe('quando é deletado com sucesso', () => {
     before(() => {
-      request.query = { q: 'Mar' };
+      request.params = 1;
 
       response.status = sinon.stub().returns(response);
+      sinon.stub(SalesService, 'remove').resolves({ affectedRows: 1 });
     });
+
+    after(() => SalesService.remove.restore());
 
     it('é chamado o status com o código 204', async () => {
       await SalesControler.remove(request, response);

@@ -19,6 +19,7 @@ router.route('/:id')
     validate.saleProductsId,
     validate.saleProductsQuantity,
     Sales.update,
-  );
+  )
+  .delete(Sales.remove);
 
 module.exports = router;
