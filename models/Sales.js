@@ -77,9 +77,14 @@ const update = async ({ saleId, saleUpdate }) => {
   return { affectedRows: response.length };
 };
 
+const remove = async () => {
+
+};
+
 module.exports = {
   create,
   getAll,
   findById,
   update,
+  remove,
 };

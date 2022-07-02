@@ -150,3 +150,22 @@ describe('Model - Altera o nome de uma venda no BD através da rota PUT "/sales/
     });
   });
 });
+
+describe('Model - Remove uma venda no BD através da rota DELETE "/sales/:id"', () => {
+  describe('quando deletada com sucesso', () => {
+    const SALE_TEST = { id: 1 };
+
+    it('retorna um objeto', async () => {
+      const response = await SalesModel.remove(SALE_TEST);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto contém a chave "affectedRows" com o valor 1', async () => {
+      const response = await SalesModel.remove(SALE_TEST);
+
+      expect(response).to.have.a.property('affectedRows');
+      expect(response.affectedRows).to.be.equal(1);
+    });
+  });
+});
