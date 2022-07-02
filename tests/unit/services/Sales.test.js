@@ -180,3 +180,22 @@ describe('Service - Altera o nome de uma venda no DB através da rota PUT "/sale
     });
   });
 });
+
+describe('Service - Remove uma venda no BD através da rota DELETE "/sales/:id"', () => {
+  describe('quando deletada com sucesso', () => {
+    const SALE_TEST = 1;
+    
+    it('retorna um objeto', async () => {
+      const response = await SalesService.remove(SALE_TEST);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('tal objeto contém a chave "removed" com o valor true', async () => {
+      const response = await SalesService.remove(SALE_TEST);
+
+      expect(response).to.have.a.property('removed');
+      expect(response.removed).to.be.equal(true);
+    });
+  });
+});

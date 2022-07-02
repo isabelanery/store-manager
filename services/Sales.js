@@ -26,9 +26,14 @@ const update = async ({ saleId, saleUpdate }) => {
   return response;
 };
 
+const remove = () => {
+
+};
+
 module.exports = {
   create,
   getAll,
   findById,
   update,
+  remove,
 };
