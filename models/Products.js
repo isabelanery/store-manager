@@ -51,10 +51,15 @@ const remove = async (id) => {
   return response;
 };
 
+const search = async () => {
+
+};
+
 module.exports = {
   getAll,
   findById,
   create,
   update,
   remove,
+  search,
 };

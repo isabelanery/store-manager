@@ -85,6 +85,17 @@ describe('Model - Encontra um produto através da rota GET "/products/:id"', () 
   });
 });
 
+describe('Model - Busca um produto pelo nome através da roda GET "/products/search"', () => {
+  describe('quando é encontrado com sucesso', () => {
+    it('retorna um array de objetos', async () => {
+      const response = await ProductModel.search();
+
+      expect(response).to.be.an('array');
+      expect(response[0]).to.be.an('object');
+    });
+  });
+});
+
 describe('Model - Altera o nome de um produto no BD através da rota PUT "/products/:id"', () => {
   describe('quando alterado com sucesso', () => {
     const PRODUCT_TEST = [{ id: 1, name: 'Pedra Filosofal' }];
