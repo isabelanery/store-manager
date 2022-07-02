@@ -37,9 +37,7 @@ const remove = async (req, res) => {
 
   const response = await ProductsService.remove(id);
 
-  if (response.isValid === false) return res.status(404).json({ message: 'Product not found' });
-
-  res.status(204);
+  if (response.removed) return res.status(204);
 };
 
 module.exports = {
