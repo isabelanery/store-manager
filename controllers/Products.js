@@ -40,8 +40,12 @@ const remove = async (req, res) => {
   if (response.removed) return res.status(204);
 };
 
-const search = async () => {
+const search = async (req, res) => {
+  const { q: name } = req.query;
 
+  const response = await ProductsService.search(name);
+
+  res.status(200).json(response);
 };
 
 module.exports = {

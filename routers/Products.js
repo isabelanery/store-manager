@@ -9,6 +9,9 @@ router.route('/')
   .get(Products.getAll)
   .post(validate.productName, Products.create);
   
+router.route('/search')
+  .get(Products.search);
+
 router.route('/:id')
   .get(Products.findById)
   .put(validate.productId, validate.productName, Products.update)

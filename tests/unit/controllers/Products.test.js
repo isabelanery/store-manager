@@ -103,8 +103,12 @@ describe('Controller - Busca um produto pelo nome através da roda GET "/product
   
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
+
+      sinon.stub(ProductService, 'search').resolves(productsDb[0]);
     });
     
+    after(() => ProductService.search.restore());
+
     it('é chamado o status com o código 200', async () => {
       await ProductsController.search(request, response);
 
@@ -126,8 +130,12 @@ describe('Controller - Busca um produto pelo nome através da roda GET "/product
   
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
+
+      sinon.stub(ProductService, 'search').resolves(productsDb);
     });
     
+    after(() => ProductService.search.restore());
+
     it('é chamado o status com o código 200', async () => {
       await ProductsController.search(request, response);
   
