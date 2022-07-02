@@ -32,10 +32,15 @@ const remove = async (id) => {
   if (response.affectedRows) return { removed: true };
 };
 
+const search = () => {
+
+};
+
 module.exports = {
   getAll,
   findById,
   create,
   update,
   remove,
+  search,
 };

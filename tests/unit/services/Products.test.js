@@ -52,6 +52,28 @@ describe('Service - Encontra um produto através da rota "/products/:id"', () =>
   });
 });
 
+describe('Service - Busca um produto pelo nome através da roda GET "/products/search"', () => {
+  describe('quando é encontrado com sucesso', () => {
+
+    it('retorna um array de objetos', async () => {
+      const response = await ProductService.search();
+
+      expect(response).to.be.an('array');
+      expect(response[0]).to.be.an('object');
+    });
+  });
+
+  describe('quando a busca passa vazia', () => {
+
+    it('retorna um array de objetos', async () => {
+      const response = await ProductService.search();
+
+      expect(response).to.be.an('array');
+      expect(response[0]).to.be.an('object');
+    });
+  });
+});
+
 describe('Service - Insere um novo produto no DB através da rota POST "/products"', () => {
   describe('quando é inserido com sucesso', () => {
     const newProduct = {
