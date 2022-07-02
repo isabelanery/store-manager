@@ -54,6 +54,14 @@ describe('Service - Encontra um produto através da rota "/products/:id"', () =>
 
 describe('Service - Busca um produto pelo nome através da roda GET "/products/search"', () => {
   describe('quando é encontrado com sucesso', () => {
+    const SEARCH_TEST = 'Mar';
+    const MOCK_DB = productsDb.filter((item) => item.name.includes(SEARCH_TEST));
+    
+    before(() => {
+      sinon.stub(ProductModel, 'search').resolves(MOCK_DB);
+    });
+
+    after(() => ProductModel.search.restore());
 
     it('retorna um array de objetos', async () => {
       const response = await ProductService.search();
@@ -64,7 +72,15 @@ describe('Service - Busca um produto pelo nome através da roda GET "/products/s
   });
 
   describe('quando a busca passa vazia', () => {
+    const SEARCH_TEST = '';
+    const MOCK_DB = productsDb.filter((item) => item.name.includes(SEARCH_TEST));
 
+    before(() => {
+      sinon.stub(ProductModel, 'search').resolves(MOCK_DB);
+    });
+
+    after(() => ProductModel.search.restore());
+    
     it('retorna um array de objetos', async () => {
       const response = await ProductService.search();
 

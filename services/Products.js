@@ -32,8 +32,10 @@ const remove = async (id) => {
   if (response.affectedRows) return { removed: true };
 };
 
-const search = () => {
+const search = async (name) => {
+  const response = await ProductsModel.search(name);
 
+  return response;
 };
 
 module.exports = {
