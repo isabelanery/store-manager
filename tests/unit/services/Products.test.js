@@ -181,12 +181,10 @@ describe('Service - Remove um produto no BD através da rota DELETE "/products/:
 
     before(() => {
       sinon.stub(ProductModel, 'remove').resolves(MOCK_MODEL);
-      sinon.stub(ProductModel, 'getAll').resolves(productsDb);
     });
 
     after(() => {
       ProductModel.remove.restore();
-      ProductModel.getAll.restore();
     });
 
     it('retorna um objeto', async () => {

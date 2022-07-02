@@ -184,6 +184,15 @@ describe('Service - Altera o nome de uma venda no DB através da rota PUT "/sale
 describe('Service - Remove uma venda no BD através da rota DELETE "/sales/:id"', () => {
   describe('quando deletada com sucesso', () => {
     const SALE_TEST = 1;
+    const MOCK_MODEL = { affectedRows: 1 };
+
+    before(() => {
+      sinon.stub(SalesModel, 'remove').resolves(MOCK_MODEL);
+    });
+
+    after(() => {
+      SalesModel.remove.restore();
+    });
     
     it('retorna um objeto', async () => {
       const response = await SalesService.remove(SALE_TEST);
@@ -191,11 +200,11 @@ describe('Service - Remove uma venda no BD através da rota DELETE "/sales/:id"'
       expect(response).to.be.an('object');
     });
 
-    it('tal objeto contém a chave "removed" com o valor true', async () => {
+    it('tal objeto contém a chave "affectedRows" com o valor true', async () => {
       const response = await SalesService.remove(SALE_TEST);
 
-      expect(response).to.have.a.property('removed');
-      expect(response.removed).to.be.equal(true);
+      expect(response).to.have.a.property('affectedRows');
+      expect(response.affectedRows).to.be.equal(1);
     });
   });
 });
