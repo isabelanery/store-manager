@@ -332,7 +332,7 @@ describe('Controller - Altera as informações da venda no DB através da rota P
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
     
-      sinon.stub(SalesService, 'update').resolves({ isValid: false, err: { code: 404 } });
+      sinon.stub(SalesService, 'update').resolves({ isValid: false, err: { code: 404, message: 'Sale not found' } });
     });
 
     after(() => SalesService.update.restore());

@@ -274,11 +274,13 @@ describe('Service - Altera o nome de uma venda no DB através da rota PUT "/sale
     before(() => {
       sinon.stub(SalesModel, 'update').resolves(MOCK_MODEL);
       sinon.stub(SalesModel, 'getAll').resolves(salesDb);
+      sinon.stub(ProductModel, 'getAll').resolves(productsDb);
     });
 
     after(() => {
       SalesModel.update.restore();
       SalesModel.getAll.restore();
+      ProductModel.getAll.restore();
     });
 
     it('retorna um objeto', async () => {
@@ -296,10 +298,9 @@ describe('Service - Altera o nome de uma venda no DB através da rota PUT "/sale
 
   describe('quando não é possível alterar as informações da venda', () => {
     const SALE_TEST = {
-      saleId: 7,
+      saleId: 1,
       saleUpdate: [
         {
-          "productId": 1,
           "quantity": 10
         },
         {
@@ -313,11 +314,13 @@ describe('Service - Altera o nome de uma venda no DB através da rota PUT "/sale
     before(() => {
       sinon.stub(SalesModel, 'update').resolves(MOCK_MODEL);
       sinon.stub(SalesModel, 'getAll').resolves(salesDb);
+      sinon.stub(ProductModel, 'getAll').resolves(productsDb);
     });
 
     after(() => {
       SalesModel.update.restore();
       SalesModel.getAll.restore();
+      ProductModel.getAll.restore();
     });
 
     it('retorna um objeto', async () => {

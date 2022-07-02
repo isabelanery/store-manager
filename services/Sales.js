@@ -57,7 +57,7 @@ const getAll = async () => {
 };
 
 const findById = async (id) => {
-  const sales = await getAll();
+  const sales = await SalesModel.getAll();
   const validateId = sales.some((item) => +item.saleId === +id);
   if (!validateId) return false;
 
@@ -65,18 +65,13 @@ const findById = async (id) => {
   return sale;
 };
 
-const validateSale = async (id) => {
-  const sales = await getAll();
-
-  if (!sales.some((sale) => +sale.saleId === id)) {
-    return { isValid: false, err: { code: 404, message: 'Sale not found' } };
-  }
-
-  return { isValid: true };
-};
-
 const update = async ({ saleId, saleUpdate }) => {
-  if ((await validateSale(saleId)).isValid === false) return validateSale(saleId);
+  // const sales = await SalesModel.getAll();
+  // const validateSale = sales.some((item) => +item.saleId === +saleId);
+  // if (!validateSale) return { isValid: false, err: { code: 404, message: 'Sale not found' } };
+
+  const validation = await isDataValid(saleUpdate);
+  if (validation.isValid === false) return validation;
 
   const response = await SalesModel.update({ saleId, saleUpdate });
 

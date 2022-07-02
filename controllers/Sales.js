@@ -37,14 +37,16 @@ const findById = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const { id: saleId } = req.params;
+  const { id } = req.params;
   const itemsUpdated = req.body;
 
-  const response = await SalesService.update({ saleId, itemsUpdated });
+  const response = await SalesService.update({ saleId: id, itemsUpdated });
 
-  if (response.err) return res.status(404).json({ message: 'Sale not found' });
+  if (response.err) {
+    return res.status(response.err.code).json({ message: response.err.message });
+  }
 
-  res.status(200).json({ saleId, itemsUpdated });
+  res.status(200).json({ saleId: id, itemsUpdated });
 };
 
 module.exports = {
