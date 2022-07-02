@@ -54,8 +54,8 @@ const remove = async (id) => {
 const search = async (name) => {
   const [response] = await connection.execute(
     `SELECT * FROM StoreManager.products 
-    WHERE name LIKE ('%?%')`,
-    [name],
+    WHERE name LIKE ?`,
+    [`%${name}&`],
   );
 
   return response;
