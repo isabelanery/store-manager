@@ -267,28 +267,28 @@ describe('Controller - Remove um produto no BD através da rota DELETE "/product
     });
   });
 
-  describe('quando o id informado é inválido', () => {
-    before(() => {
-      request.params = 7;
+  // describe('quando o id informado é inválido', () => {
+  //   before(() => {
+  //     request.params = 7;
 
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-      sinon.stub(ProductService, 'remove').resolves({ isValid: false });
-    });
+  //     response.status = sinon.stub().returns(response);
+  //     response.json = sinon.stub().returns();
+  //     sinon.stub(ProductService, 'remove').resolves({ isValid: false });
+  //   });
 
-    after(() => ProductService.remove.restore());
+  //   after(() => ProductService.remove.restore());
 
-    it('é chamado o status com o código 404', async () => {
-      await ProductsController.remove(request, response);
+  //   it('é chamado o status com o código 404', async () => {
+  //     await ProductsController.remove(request, response);
 
-      expect(response.status.calledWith(404)).to.be.equal(true);
-    });
+  //     expect(response.status.calledWith(404)).to.be.equal(true);
+  //   });
 
-    it('retorna um objeto com a mensagem de erro "Product not found"', async () => {
-      await ProductsController.remove(request, response);
-      const errorMsg = { message: 'Product not found' };
+  //   it('retorna um objeto com a mensagem de erro "Product not found"', async () => {
+  //     await ProductsController.remove(request, response);
+  //     const errorMsg = { message: 'Product not found' };
 
-      expect(response.json.calledWith(errorMsg)).to.be.equal(true);
-    });
-  });
+  //     expect(response.json.calledWith(errorMsg)).to.be.equal(true);
+  //   });
+  // });
 });
