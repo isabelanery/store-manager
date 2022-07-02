@@ -1,5 +1,5 @@
 const express = require('express');
-const validate = require('../middlewares/validate');
+const validate = require('../middlewares/validation');
 
 const router = express.Router();
 
@@ -20,6 +20,6 @@ router.route('/:id')
     validate.saleProductsQuantity,
     Sales.update,
   )
-  .delete(Sales.remove);
+  .delete(validate.saleId, Sales.remove);
 
 module.exports = router;

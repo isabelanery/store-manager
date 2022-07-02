@@ -1,4 +1,5 @@
 const ProductsService = require('../services/Products');
+const SalesService = require('../services/Sales');
 
 const productName = (req, res, next) => {
   const { name } = req.body;
@@ -21,6 +22,18 @@ const productId = async (req, res, next) => {
 
   if (!products.some((product) => +product.id === +id)) {
     return res.status(404).json({ message: 'Product not found' });
+  }
+
+  next();
+};
+
+const saleId = async (req, res, next) => {
+  const { id } = req.params;
+
+  const sales = await SalesService.getAll();
+
+  if (!sales.some((sale) => +sale.saleId === +id)) {
+    return res.status(404).json({ message: 'Sale not found' });
   }
 
   next();
@@ -61,6 +74,7 @@ const saleProductsQuantity = (req, res, next) => {
 module.exports = {
   productName,
   productId,
+  saleId,
   saleProductsId,
   saleProductsQuantity,
 };
