@@ -49,9 +49,14 @@ const update = async (req, res) => {
   res.status(200).json({ saleId: id, itemsUpdated });
 };
 
+const remove = async () => {
+
+};
+
 module.exports = {
   create,
   getAll,
   findById,
   update,
+  remove,
 };

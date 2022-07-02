@@ -351,3 +351,21 @@ describe('Controller - Altera as informações da venda no DB através da rota P
     });
   });
 });
+
+describe('Controller - Remove uma venda no BD através da rota DELETE "/sales/:id"', () => {
+  const response = {};
+  const request = {};
+
+  describe('quando é deletado com sucesso', () => {
+    before(() => {
+      request.query = { q: 'Mar' };
+
+      response.status = sinon.stub().returns(response);
+    });
+
+    it('é chamado o status com o código 204', async () => {
+      await SalesControler.remove(request, response);
+      expect(response.status.calledWith(204)).to.be.equal(true);
+    });
+  });
+});
