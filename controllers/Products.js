@@ -40,10 +40,15 @@ const remove = async (req, res) => {
   if (response.removed) return res.status(204);
 };
 
+const search = async () => {
+
+};
+
 module.exports = {
   getAll,
   findById,
   create,
   update,
   remove,
+  search,
 };

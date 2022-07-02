@@ -92,6 +92,57 @@ describe('Controller - Testa a rota "/products/:id"', () => {
   });
 })
 
+describe('Controller - Busca um produto pelo nome através da roda GET "/products/search"', () => {
+  const request = {};
+  const response = {};
+  
+  describe('quando é encontrado com sucesso', () => {
+    
+    before(() => {
+      request.query = { q: 'Mar' };
+  
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+    
+    it('é chamado o status com o código 200', async () => {
+      await ProductsController.search(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('retorna um objeto com as informações do produto buscado', async () => {
+      await ProductsController.search(request, response);
+
+      expect(response.json.calledWith(productsDb[0])).to.be.equal(true);
+    });
+    
+  });
+  
+  describe('quando a busca passa vazia', () => {
+    
+    before(() => {
+      request.query = { q: '' };
+  
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+    
+    it('é chamado o status com o código 200', async () => {
+      await ProductsController.search(request, response);
+  
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+  
+    it('retorna um objeto com as informações do produto buscado', async () => {
+      await ProductsController.search(request, response);
+  
+      expect(response.json.calledWith(productsDb)).to.be.equal(true);
+    });
+    
+  });
+});
+
 describe('Controller - Insere um novo produto no DB através da rota POST "/products"', () => {
   describe('quando é inserido com sucesso', () => {
     const request = {};
