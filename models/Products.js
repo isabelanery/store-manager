@@ -51,8 +51,14 @@ const remove = async (id) => {
   return response;
 };
 
-const search = async () => {
+const search = async (name) => {
+  const [response] = await connection.execute(
+    `SELECT * FROM StoreManager.products 
+    WHERE name LIKE ('%?%')`,
+    [name],
+  );
 
+  return response;
 };
 
 module.exports = {

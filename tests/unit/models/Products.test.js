@@ -3,7 +3,7 @@ const sinon = require('sinon');
 
 const connection = require('../../../models/connection');
 const ProductModel = require('../../../models/Products');
-const { productsDb } = require('../mockDb');
+const { productsDb, saleDb } = require('../mockDb');
 
 describe('Model - Lista todos os produtos através da rota GET "/products"', () => {
 
@@ -87,6 +87,16 @@ describe('Model - Encontra um produto através da rota GET "/products/:id"', () 
 
 describe('Model - Busca um produto pelo nome através da roda GET "/products/search"', () => {
   describe('quando é encontrado com sucesso', () => {
+    before(async () => {
+      const execute = [[productsDb[0]]];
+      sinon.stub(connection, 'execute').returns(execute);
+    });
+
+    after(async () => {
+      connection.execute.restore();
+    })
+
+
     it('retorna um array de objetos', async () => {
       const response = await ProductModel.search();
 
