@@ -361,6 +361,7 @@ describe('Controller - Remove uma venda no BD através da rota DELETE "/sales/:i
       request.params = 1;
 
       response.status = sinon.stub().returns(response);
+      response.end = sinon.stub();
       sinon.stub(SalesService, 'remove').resolves({ affectedRows: 1 });
     });
 

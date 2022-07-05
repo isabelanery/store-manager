@@ -21,9 +21,10 @@ const findById = async (id) => {
 };
 
 const update = async ({ saleId, saleUpdate }) => {
-  const response = await SalesModel.update({ saleId, saleUpdate });
-
-  return response;
+  const promises = saleUpdate.map((sale) => SalesModel.update({ saleId, saleUpdate: sale }));
+  // const response = await SalesModel.update({ saleId, saleUpdate });
+  const response = await Promise.all(promises);
+  return { affectedRows: response.length };
 };
 
 const remove = async (id) => {

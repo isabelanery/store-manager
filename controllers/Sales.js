@@ -54,7 +54,7 @@ const remove = async (req, res) => {
 
   const response = await SalesService.remove(id);
   
-  if (response.affectedRows) return res.status(204);
+  if (response.affectedRows) return res.status(204).end();
 };
 
 module.exports = {

@@ -315,6 +315,7 @@ describe('Controller - Remove um produto no BD através da rota DELETE "/product
       request.params = 1;
 
       response.status = sinon.stub().returns(response);
+      response.end = sinon.stub();
       sinon.stub(ProductService, 'remove').resolves({ removed: true });
     });
 

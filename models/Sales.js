@@ -64,17 +64,17 @@ const findById = async (id) => {
 };
 
 const update = async ({ saleId, saleUpdate }) => {
-  const response = await saleUpdate.map(async (item) => {
-    const [result] = await connection.execute(
-      `UPDATE StoreManager.sales_products
-        SET quantity = ?
-        WHERE sale_id = ? AND product_id = ?`,
-      [item.quantity, saleId, item.productId],
-    );
-    return result;
-  });
+  // const response = await saleUpdate.forEach(async (item) => {
+  const [result] = await connection.execute(
+    `UPDATE StoreManager.sales_products
+      SET quantity = ?
+      WHERE sale_id = ? AND product_id = ?`,
+    [saleUpdate.quantity, saleId, saleUpdate.productId],
+  );
+    // return result;
+  // });
   // response tá retornando um array de promises, não sei pq ele n espera mas ACHO que está inserindo no DB
-  return { affectedRows: response.length };
+  return result;
 };
 
 const remove = async (id) => {
