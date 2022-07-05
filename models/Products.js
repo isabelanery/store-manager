@@ -55,7 +55,7 @@ const search = async (name) => {
   const [response] = await connection.execute(
     `SELECT * FROM StoreManager.products 
     WHERE name LIKE ?`,
-    [`%${name}&`],
+    [`%${name}%`],
   );
 
   return response;

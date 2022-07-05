@@ -64,16 +64,12 @@ const findById = async (id) => {
 };
 
 const update = async ({ saleId, itemsUpdated }) => {
-  // const response = await itemsUpdated.forEach(async (item) => {
   const [result] = await connection.execute(
     `UPDATE StoreManager.sales_products
       SET quantity = ?
       WHERE sale_id = ? AND product_id = ?`,
     [itemsUpdated.quantity, saleId, itemsUpdated.productId],
   );
-    // return result;
-  // });
-  // response tá retornando um array de promises, não sei pq ele n espera mas ACHO que está inserindo no DB
   return result;
 };
 
