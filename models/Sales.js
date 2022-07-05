@@ -63,13 +63,13 @@ const findById = async (id) => {
   return sale.map(serializeById);
 };
 
-const update = async ({ saleId, saleUpdate }) => {
-  // const response = await saleUpdate.forEach(async (item) => {
+const update = async ({ saleId, itemsUpdated }) => {
+  // const response = await itemsUpdated.forEach(async (item) => {
   const [result] = await connection.execute(
     `UPDATE StoreManager.sales_products
       SET quantity = ?
       WHERE sale_id = ? AND product_id = ?`,
-    [saleUpdate.quantity, saleId, saleUpdate.productId],
+    [itemsUpdated.quantity, saleId, itemsUpdated.productId],
   );
     // return result;
   // });

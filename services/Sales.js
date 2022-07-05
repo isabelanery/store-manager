@@ -20,8 +20,8 @@ const findById = async (id) => {
   return sale;
 };
 
-const update = async ({ saleId, saleUpdate }) => {
-  const promises = saleUpdate.map((sale) => SalesModel.update({ saleId, saleUpdate: sale }));
+const update = async ({ saleId, itemsUpdated }) => {
+  const promises = itemsUpdated.map((sale) => SalesModel.update({ saleId, itemsUpdated: sale }));
   // const response = await SalesModel.update({ saleId, saleUpdate });
   const response = await Promise.all(promises);
   return { affectedRows: response.length };

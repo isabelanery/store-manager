@@ -18,6 +18,7 @@ router.route('/')
 router.route('/:id')
   .get(rescue(Sales.findById))
   .put(
+    rescue(validate.saleId),
     rescue(validate.saleProductsId),
     validate.saleProductsQuantity,
     rescue(Sales.update),
