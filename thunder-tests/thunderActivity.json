@@ -27,12 +27,12 @@
     "method": "PUT",
     "sortNum": 0,
     "created": "2022-06-29T21:53:17.494Z",
-    "modified": "2022-07-05T14:48:53.584Z",
+    "modified": "2022-07-05T16:39:14.083Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n    \"productId\": 3,\n    \"quantity\": 40\n  }",
+      "raw": "[{\n    \"productId\": 3,\n    \"quantity\": 40\n  }]",
       "form": []
     },
     "tests": []

@@ -116,20 +116,15 @@ describe('Model - Altera o nome de uma venda no BD através da rota PUT "/sales/
   describe('quando alterado com sucesso', () => {
     const SALE_TEST = {
       saleId: 1,
-      saleUpdate: [
+      itemsUpdated:
         {
           "productId": 1,
           "quantity": 10
-        },
-        {
-          "productId": 2,
-          "quantity": 50
         }
-      ],
     };
 
     before(async () => {
-      const execute = [{ affectedRows: 2 }];
+      const execute = [{ affectedRows: 1 }];
       
       sinon.stub(connection, 'execute').resolves(execute);
     });
