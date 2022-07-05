@@ -3,7 +3,7 @@ const ProductsService = require('../services/Products');
 const getAll = async (_req, res) => {
   const products = await ProductsService.getAll();
 
-  res.status(200).json(products);
+  return res.status(200).json(products);
 };
 
 const findById = async (req, res) => {
@@ -12,7 +12,7 @@ const findById = async (req, res) => {
 
   if (!product) return res.status(404).json({ message: 'Product not found' });
 
-  res.status(200).json(product);
+  return res.status(200).json(product);
 };
 
 const create = async (req, res) => {
@@ -20,7 +20,7 @@ const create = async (req, res) => {
 
   const product = await ProductsService.create({ name });
   
-  res.status(201).json(product);
+  return res.status(201).json(product);
 };
 
 const update = async (req, res) => {
@@ -29,7 +29,7 @@ const update = async (req, res) => {
 
   const response = await ProductsService.update({ id, name });
 
-  res.status(200).json(response);
+  return res.status(200).json(response);
 };
 
 const remove = async (req, res) => {
@@ -45,7 +45,7 @@ const search = async (req, res) => {
 
   const response = await ProductsService.search(name);
 
-  res.status(200).json(response);
+  return res.status(200).json(response);
 };
 
 module.exports = {

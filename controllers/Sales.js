@@ -14,13 +14,13 @@ const create = async (req, res) => {
     itemsSold: newSale,
   };
 
-  res.status(201).json(result);
+  return res.status(201).json(result);
 };
 
 const getAll = async (_req, res) => {
   const sales = await SalesService.getAll();
 
-  res.status(200).json(sales);
+  return res.status(200).json(sales);
 };
 
 const findById = async (req, res) => {
@@ -31,9 +31,7 @@ const findById = async (req, res) => {
     return res.status(404).json({ message: 'Sale not found' });
   }
 
-  res.status(200).json(sale);
-
-  return sale;
+  return res.status(200).json(sale);
 };
 
 const update = async (req, res) => {
@@ -46,7 +44,7 @@ const update = async (req, res) => {
     return res.status(response.err.code).json({ message: response.err.message });
   }
 
-  res.status(200).json({ saleId: id, itemsUpdated });
+  return res.status(200).json({ saleId: id, itemsUpdated });
 };
 
 const remove = async (req, res) => {
