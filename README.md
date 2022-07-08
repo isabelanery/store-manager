@@ -19,7 +19,7 @@ The goal was to create a RESTful API with all the CRUD operations using MSC (Mod
 - Create and Express.js application
 - Develop a RESTful API using MSC Architecture (Model-Service-Controler)
 - Validate request's data
-- Implement unit tests with Mocha, Chai and Sinon
+- Implement unit tests with Mocha, Chai and Sinon using TDD
 
 ### In works: 
 - A step by step: how to install and execute the application
