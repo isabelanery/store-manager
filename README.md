@@ -10,11 +10,9 @@ The goal was to create a RESTful API using MSC (Model-Service-Controller) Archit
 - Express.js
 - Express Rescue
 - DotEnv
-- Joi
 - Mocha.js
 - Chai.js
 - Sinon.js
-- Docker
 - MySQL
 
 ### Developed Skills
