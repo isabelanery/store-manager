@@ -3,7 +3,7 @@
 ## About 
 Project developed at Back-End Development Module of Trybe's Web Development course. I was approved with 100% of the mandatory and optional requirements met.
 
-The goal was to create a RESTful API using MSC (Model-Service-Controller) Architecture and implement unit tests with Mocha, Chai and Sinon. 
+The goal was to create a RESTful API with all the CRUD operations using MSC (Model-Service-Controller) Architecture and implement unit tests with Mocha, Chai and Sinon. 
 
 ## Tools
 - Node.js
